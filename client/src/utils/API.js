@@ -21,5 +21,23 @@ export default {
     },
     makeTeam: function(team) {
         return axios.post("/api/teams", team);
+    },
+    getEmployeeSchedulesAll: function() {
+        return axios.get("/api/employeeSchedules");
+    },
+    getEmployeeSchedulesAllByEmployee: function(id) {
+        return axios.get("/api/employeeSchedules/employee/" + id);
+    },
+    getEmployeeScheduleByEmployeeWeek: function(id, week) {
+        return axios.get(`/api/employeeSchedules/employee/${id}/${week}`);
+    },
+    getEmployeeSchedulesAllByTeam: function(id) {
+        return axios.get("/api/employeeSchedules/team/" + id);
+    },
+    getEmployeeSchedulesAllByTeamWeek: function(id, week) {
+        return axios.get(`/api/employeeSchedules/team/${id}/${week}`);
+    },
+    getEmployeeSchedulesAllByWeek: function(week) {
+        return axios.get("/api/employeeSchedules/week/" + week);
     }
 };
