@@ -5,3 +5,57 @@
     border-bottom: 1px solid #EEE;
     margin-bottom: 0px;
 }
+
+.card {
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+}
+
+.container {
+    padding: 10px;
+}
+
+.dayCardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.dayCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.inOfficeRequirement {
+    margin: 10px;
+    padding: 10px;
+}
+
+.InOfficeAllDay {
+    background-color: lightcyan;
+}
+
+.Home {
+    background-color: lightpink;
+}
+
+.InOfficeAM {
+    background: linear-gradient(90deg, lightcyan, lightpink);
+}
+
+.InOfficePM {
+    background: linear-gradient(90deg, lightpink, lightcyan);
+}
+
+.DayOff {
+    background-color: lightyellow;
+}
