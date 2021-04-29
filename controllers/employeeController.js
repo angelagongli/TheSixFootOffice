@@ -3,6 +3,9 @@ const db = require("../models");
 module.exports = {
     findAll: function(req, res) {
         db.Employee.findAll({
+            include: {
+                model: db.Team
+            },
             order: [['TeamId']]
         }).then(dbEmployeesAll => {
             res.json(dbEmployeesAll);
@@ -10,6 +13,9 @@ module.exports = {
     },
     findAllByTeam: function(req, res) {
         db.Employee.findAll({
+            include: {
+                model: db.Team
+            },
             where: { TeamId: req.params.id }
         }).then(dbEmployeesInTeamAll => {
             res.json(dbEmployeesInTeamAll);
