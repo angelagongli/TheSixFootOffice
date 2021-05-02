@@ -6,6 +6,9 @@ function DayCard(props) {
             <h5>
                 {props.heading}
             </h5>
+            <div className="inOfficeRequirementIcon">
+                <i className={`ms-Icon ms-Icon--${props.inOfficeRequirementIcon}`} aria-hidden="true"></i>
+            </div>
             <div className={`inOfficeRequirement ${props.inOfficeRequirement.split(" ").join("")}`}>
                 {props.inOfficeRequirement}
             </div>
