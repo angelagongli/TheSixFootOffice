@@ -8,25 +8,23 @@ import API from "../utils/API";
 
 function Home() {
     const [employeesAll, setEmployeesAll] = useState([]);
-    const [teamsAll, setTeamsAll] = useState([]);
+    const [employeeNameIDLookUp, setEmployeeNameIDLookUp] = useState({});
     const [chosenSeat, setChosenSeat] = useState();
 
     useEffect(() => {
         loadEmployeesAll();
-        loadTeamsAll();
     }, []);
 
     function loadEmployeesAll() {
         API.getEmployeesAll().then(res => {
             setEmployeesAll(res.data);
             console.log("All employees set");
-        }).catch(err => console.log(err));
-    }
-
-    function loadTeamsAll() {
-        API.getTeamsAll().then(res => {
-            setTeamsAll(res.data);
-            console.log("All teams set");
+            let employeeNameIDLookUp = {};
+            for (const employee of res.data) {
+                employeeNameIDLookUp[employee.id] = employee.name;
+            }
+            setEmployeeNameIDLookUp(employeeNameIDLookUp);
+            console.log("All employees in Employee Name/ID Lookup set");
         }).catch(err => console.log(err));
     }
 
@@ -45,17 +43,16 @@ function Home() {
                 <div className="col-3 col-sm-2 col-lg-1">
                     <Navigation />
                 </div>
-                <div className="col-9 col-sm-10 col-lg-11">
-                    <OfficeSchedule />
+                <div className="col-9 col-sm-10 col-lg-11 container">
+                    <h2>
+                        Welcome to the Six-Foot Office
+                    </h2>
+                    <OfficeSchedule employeeNameIDLookUp={employeeNameIDLookUp} />
                     <OfficeFloorPlan chooseSeat={chooseSeat} />
                     {chosenSeat ?
                     <div>
-                        <Seat seatNumber={chosenSeat}
-                            employee={employeesAll.find(employee =>
-                                employee.seatNumber === chosenSeat)}
-                            team={teamsAll.find(team =>
-                                team.id === employeesAll.find(employee =>
-                                employee.seatNumber === chosenSeat).TeamId)} />
+                        <Seat employee={employeesAll.find(employee =>
+                            employee.seatNumber === chosenSeat)} />
                     </div>
                     : ""}
                 </div>
