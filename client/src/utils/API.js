@@ -39,5 +39,8 @@ export default {
     },
     getEmployeeSchedulesAllByWeek: function(week) {
         return axios.get("/api/employeeSchedules/week/" + week);
+    },
+    getDaysAllByDate: function(date) {
+        return axios.get("/api/days/date/" + date);
     }
 };
