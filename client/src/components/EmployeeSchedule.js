@@ -3,6 +3,13 @@ import DayCard from "./DayCard";
 
 function EmployeeSchedule(props) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const inOfficeRequirementIconLookUp = {
+        "In Office All Day": "BufferTimeBoth",
+        "In Office AM": "BufferTimeBefore",
+        "In Office PM": "BufferTimeAfter",
+        "Home": "Home",
+        "Day Off": "OutOfOffice"
+    }
 
     function computeDayOfWeek(dateString) {
         const [year, month, date] = dateString.split("-");
@@ -22,6 +29,7 @@ function EmployeeSchedule(props) {
                     key={day.id}
                     heading={`${computeDayOfWeek(day.date)}, 
                         ${formatDate(day.date)}`}
+                    inOfficeRequirementIcon={inOfficeRequirementIconLookUp[day.inOfficeRequirement]}
                     inOfficeRequirement={day.inOfficeRequirement} />
             ))}
         </div>
