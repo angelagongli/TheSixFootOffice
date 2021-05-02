@@ -40,6 +40,10 @@
     padding: 10px;
 }
 
+.inOfficeRequirementIcon {
+    font-size: 32px;
+}
+
 .InOfficeAllDay {
     background-color: lightcyan;
 }
