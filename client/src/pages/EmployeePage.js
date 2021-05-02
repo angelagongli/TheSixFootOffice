@@ -15,16 +15,23 @@ function EmployeePage() {
     const [chosenEmployee, setChosenEmployee] = useState();
     const [chosenTeam, setChosenTeam] = useState();
     const [mode, setMode] = useState("");
+    const [employeeSeatLookUp, setEmployeeSeatLookUp] = useState({});
 
     useEffect(() => {
         loadEmployeesAll();
         loadTeamsAll();
-    }, []);
+    }, [mode]);
 
     function loadEmployeesAll() {
         API.getEmployeesAll().then(res => {
             setEmployeesAll(res.data);
             console.log("All employees set");
+            let employeeSeatLookUp = {};
+            for (const employee of res.data) {
+                employeeSeatLookUp[employee.seatNumber] = employee.id;
+            }
+            setEmployeeSeatLookUp(employeeSeatLookUp);
+            console.log("All employees in Employee/Seat Lookup set");
         }).catch(err => console.log(err));
     }
 
@@ -109,9 +116,16 @@ function EmployeePage() {
                                 employee.id === chosenEmployee)} />
                             : ((mode === "Update" && chosenEmployee) ?
                             <UpdateEmployee employee={employeesAll.find(employee =>
-                                employee.id === chosenEmployee)} />
+                                employee.id === chosenEmployee)}
+                                teamsAll={teamsAll.filter(team =>
+                                    team.key !== "All")}
+                                employeeSeatLookUp={employeeSeatLookUp}
+                                chooseMode={chooseMode} />
                             : (mode === "Add" ?
-                            <AddEmployee />
+                            <AddEmployee teamsAll={teamsAll.filter(team =>
+                                team.key !== "All")}
+                                employeeSeatLookUp={employeeSeatLookUp}
+                                chooseMode={chooseMode} />
                             : "")))
                             : ""}
                         </div>
