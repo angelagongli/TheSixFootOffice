@@ -121,15 +121,15 @@ function AddEmployee(props) {
                         label="Employee's Name"
                         value={newEmployeeName}
                         onChange={onNewEmployeeNameChange}
-                        required
-                    />
+                        required />
                     {props.teamsAll.length ?
                     <Dropdown
                         label="Choose Your New Employee's Team"
                         selectedKey={chosenTeam ? chosenTeam.key : undefined}
                         onChange={chooseTeam}
                         placeholder="Choose Your Team"
-                        options={props.teamsAll} />
+                        options={props.teamsAll}
+                        required />
                     : ""}
                     {Object.entries(props.employeeSeatLookUp).length ?
                     <Dropdown
@@ -137,7 +137,8 @@ function AddEmployee(props) {
                         selectedKey={chosenSeat ? chosenSeat.key : undefined}
                         onChange={chooseSeat}
                         placeholder="Choose Your Seat"
-                        options={computeSeatChoice(props.employeeSeatLookUp)} />
+                        options={computeSeatChoice(props.employeeSeatLookUp)}
+                        required />
                     : ""}
                 </Stack>
                 <Stack {...columnProps}>
