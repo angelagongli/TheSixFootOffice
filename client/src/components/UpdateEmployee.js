@@ -16,7 +16,7 @@ const columnProps = {
 function UpdateEmployee(props) {
     const [chosenEmployeeName, setChosenEmployeeName] = useState(props.employee.name);
     const [chosenTeam, setChosenTeam] = useState(props.employee.TeamId);
-    const [chosenSeat, setChosenSeat] = useState(props.employee.teamNumber);
+    const [chosenSeat, setChosenSeat] = useState(props.employee.seatNumber);
     const [isFullyVaccinatedAgainstCoronavirus, setIsFullyVaccinatedAgainstCoronavirus] = useState(props.employee.isFullyVaccinatedAgainstCoronavirus);
     const [isWorkingNineEightySchedule, setIsWorkingNineEightySchedule] = useState(props.employee.isWorkingNineEightySchedule);
     const [isImmunocompromised, setIsImmunocompromised] = useState(props.employee.isImmunocompromised);
@@ -26,7 +26,7 @@ function UpdateEmployee(props) {
     useEffect(() => {
         setChosenEmployeeName(props.employee.name);
         setChosenTeam(props.employee.TeamId);
-        setChosenSeat(props.employee.teamNumber);
+        setChosenSeat(props.employee.seatNumber);
         setIsFullyVaccinatedAgainstCoronavirus(props.employee.isFullyVaccinatedAgainstCoronavirus);
         setIsWorkingNineEightySchedule(props.employee.isWorkingNineEightySchedule);
         setIsImmunocompromised(props.employee.isImmunocompromised);
@@ -156,15 +156,15 @@ function UpdateEmployee(props) {
                         label="Employee's Name"
                         value={chosenEmployeeName}
                         onChange={onChosenEmployeeNameChange}
-                        required
-                    />
+                        required />
                     {props.teamsAll.length ?
                     <Dropdown
                         label={`Set ${props.employee.name}'s Team`}
                         selectedKey={chosenTeam ? chosenTeam.key : undefined}
                         onChange={chooseTeam}
                         placeholder={props.employee.Team.name}
-                        options={computeTeamChoice(props.teamsAll)} />
+                        options={computeTeamChoice(props.teamsAll)}
+                        required />
                     : ""}
                     {Object.entries(props.employeeSeatLookUp).length ?
                     <Dropdown
@@ -172,7 +172,8 @@ function UpdateEmployee(props) {
                         selectedKey={chosenSeat ? chosenSeat.key : undefined}
                         onChange={chooseSeat}
                         placeholder={props.employee.seatNumber}
-                        options={computeSeatChoice(props.employeeSeatLookUp)} />
+                        options={computeSeatChoice(props.employeeSeatLookUp)}
+                        required />
                     : ""}
                 </Stack>
                 <Stack {...columnProps}>
