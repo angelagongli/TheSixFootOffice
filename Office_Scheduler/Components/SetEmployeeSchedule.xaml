@@ -1,4 +1,13 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="SetEmployeeSchedule" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1447.33333333333,827.333333333333" sap2010:WorkflowViewState.IdRef="SetEmployeeSchedule_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="SetEmployeeSchedule" this:SetEmployeeSchedule.in_EmployeeID="1" this:SetEmployeeSchedule.in_PeriodStartDate="[new DateTime(2021, 5, 3)]" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_EmployeeID" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_PeriodStartDate" Type="InArgument(s:DateTime)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1722.66666666667,4096</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>SetEmployeeSchedule_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="28">
       <x:String>System.Activities</x:String>
@@ -32,7 +41,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="18">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="25">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -51,36 +60,278 @@
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
       <AssemblyReference>UiPath.Database</AssemblyReference>
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="SetEmployeeSchedule" sap:VirtualizedContainerService.HintSize="476,544.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="SetEmployeeSchedule" sap:VirtualizedContainerService.HintSize="1732.66666666667,4031.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:DatabaseConnection" Name="DB_Connection" />
+      <Variable x:TypeArguments="sd:DataTable" Name="EmployeeInformationDT" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsFullyVaccinatedAgainstCoronavirus" />
+      <Variable x:TypeArguments="sd:DataTable" Name="EmployeeNearestNeighborInformationDT" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsWorkingNineEightySchedule" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsImmunocompromised" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsSickWithCoronavirus" />
+      <Variable x:TypeArguments="x:Int32" Name="DayCounter" />
+      <Variable x:TypeArguments="x:Int32" Name="EmployeeScheduleID" />
+      <Variable x:TypeArguments="x:String" Name="InOfficeRequirement" />
+      <Variable x:TypeArguments="sd:DataTable" Name="DayInsertQueryDT" />
+      <Variable x:TypeArguments="sd:DataTable" Name="EmployeeScheduleQueryResultDT" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsNearestNeighborFullyVaccinatedAgainstCoronavirus" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="434,452.666666666667" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
+    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="1690.66666666667,3939.33333333333" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
       <ui:DatabaseTransaction.Body>
-        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,344" sap2010:WorkflowViewState.IdRef="Sequence_2">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="sd:DataTable" Name="QueryResult" />
-            <Variable x:TypeArguments="x:String" Name="QueryResultString" />
-          </Sequence.Variables>
+        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1656.66666666667,3830.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[QueryResult]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="INSERT INTO Office_DB.Employees (name, seatNumber, nearestNeighborID, TeamId) VALUES ('Employee A', 1, 2, 1), ('Employee B', 2, 1, 1);&#xD;&#xA;INSERT INTO Office_DB.EmployeeSchedules (weekOf, EmployeeId) VALUES ('2021-04-19', 1), ('2021-04-19', 2);&#xD;&#xA;SELECT * FROM Office_DB.EmployeeSchedules;">
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[EmployeeInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="1614.66666666667,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="SELECT * FROM Office_DB.Employees WHERE id=@EmployeeID;">
             <ui:ExecuteQuery.Parameters>
-              <scg:Dictionary x:TypeArguments="x:String, Argument" />
+              <InArgument x:TypeArguments="x:Int32" x:Key="EmployeeID">[in_EmployeeID]</InArgument>
             </ui:ExecuteQuery.Parameters>
           </ui:ExecuteQuery>
-          <ui:OutputDataTable DataTable="[QueryResult]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[QueryResultString]" />
-          <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.6666666666667" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[QueryResultString]" />
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[IsFullyVaccinatedAgainstCoronavirus]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[CBool(EmployeeInformationDT.Rows(0)("isFullyVaccinatedAgainstCoronavirus"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[IsFullyVaccinatedAgainstCoronavirus]" sap:VirtualizedContainerService.HintSize="1614.66666666667,432" sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Else>
+              <Sequence DisplayName="Sequence - Check Is Employee's Nearest Neighbor Fully Vaccinated Against the Coronavirus" sap:VirtualizedContainerService.HintSize="376,281.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[EmployeeNearestNeighborInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="SELECT isFullyVaccinatedAgainstCoronavirus FROM Office_DB.Employees WHERE id=@EmployeeNearestNeighborID;">
+                  <ui:ExecuteQuery.Parameters>
+                    <InArgument x:TypeArguments="x:Int32" x:Key="EmployeeNearestNeighborID">[CInt(EmployeeInformationDT.Rows(0)("nearestNeighborID"))]</InArgument>
+                  </ui:ExecuteQuery.Parameters>
+                </ui:ExecuteQuery>
+                <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_23">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[IsNearestNeighborFullyVaccinatedAgainstCoronavirus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[CBool(EmployeeNearestNeighborInformationDT.Rows(0)("isFullyVaccinatedAgainstCoronavirus"))]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Else>
+          </If>
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[IsWorkingNineEightySchedule]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[CBool(EmployeeInformationDT.Rows(0)("isWorkingNineEightySchedule"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_6">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[IsImmunocompromised]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[CBool(EmployeeInformationDT.Rows(0)("isImmunocompromised"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[IsSickWithCoronavirus]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[CBool(EmployeeInformationDT.Rows(0)("isSickWithCoronavirus"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[EmployeeScheduleQueryResultDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="1614.66666666667,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="INSERT INTO Office_DB.EmployeeSchedules&#xD;&#xA;(weekOf, EmployeeId)&#xD;&#xA;VALUES (@PeriodStartDate, @EmployeeID),&#xD;&#xA;(@PeriodMidpointDate, @EmployeeID);&#xD;&#xA;SELECT id FROM Office_DB.EmployeeSchedules&#xD;&#xA;WHERE (weekOf=@PeriodStartDate OR weekOf=@PeriodMidpointDate) AND EmployeeId=@EmployeeID&#xD;&#xA;ORDER BY weekOf;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="x:Int32" x:Key="EmployeeID">[in_EmployeeID]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodStartDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.Year, in_PeriodStartDate.Month, in_PeriodStartDate.Day)]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodMidpointDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.AddDays(7).Year, in_PeriodStartDate.AddDays(7).Month, in_PeriodStartDate.AddDays(7).Day)]</InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_14">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[EmployeeScheduleID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(EmployeeScheduleQueryResultDT.Rows(0)("id"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="1614.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_8">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:BuildDataTable DataTable="[DayInsertQueryDT]" DisplayName="Build Data Table" sap:VirtualizedContainerService.HintSize="1614.66666666667,58.6666666666667" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;date&quot; msdata:Caption=&quot;&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;inOfficeRequirement&quot; msdata:Caption=&quot;&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;EmployeeScheduleId&quot; msdata:Caption=&quot;&quot; type=&quot;xs:int&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+          <ui:InterruptibleDoWhile DisplayName="Do While" sap:VirtualizedContainerService.HintSize="1614.66666666667,2146.66666666667" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+            <ui:InterruptibleDoWhile.Body>
+              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="1578,1977.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <If Condition="[IsFullyVaccinatedAgainstCoronavirus]" sap:VirtualizedContainerService.HintSize="1536,871.333333333333" sap2010:WorkflowViewState.IdRef="If_10">
+                  <If.Then>
+                    <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_24">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">In Office All Day</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Then>
+                  <If.Else>
+                    <If Condition="[IsNearestNeighborFullyVaccinatedAgainstCoronavirus]" sap:VirtualizedContainerService.HintSize="1228,720.666666666667" sap2010:WorkflowViewState.IdRef="If_9">
+                      <If.Then>
+                        <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_25">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">In Office All Day</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Then>
+                      <If.Else>
+                        <If Condition="[Not IsImmunocompromised]" sap:VirtualizedContainerService.HintSize="920,570" sap2010:WorkflowViewState.IdRef="If_2">
+                          <If.Then>
+                            <Sequence sap:VirtualizedContainerService.HintSize="612,419.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:Comment sap:VirtualizedContainerService.HintSize="570,74.6666666666667" sap2010:WorkflowViewState.IdRef="Comment_1" Text="@TODO: Submit Employee/Day to Office Neighbor Schedule Resolver" />
+                              <If Condition="[in_EmployeeID Mod 2 = 1]" sap:VirtualizedContainerService.HintSize="570,212.666666666667" sap2010:WorkflowViewState.IdRef="If_7">
+                                <If.Then>
+                                  <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">In Office AM</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Then>
+                                <If.Else>
+                                  <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_20">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">In Office PM</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Else>
+                              </If>
+                            </Sequence>
+                          </If.Then>
+                          <If.Else>
+                            <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_18">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">Home</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Else>
+                        </If>
+                      </If.Else>
+                    </If>
+                  </If.Else>
+                </If>
+                <If Condition="[IsWorkingNineEightySchedule And DayCounter = 11]" sap:VirtualizedContainerService.HintSize="1536,212.666666666667" sap2010:WorkflowViewState.IdRef="If_8">
+                  <If.Then>
+                    <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_21">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Day Off</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Then>
+                </If>
+                <If Condition="[IsSickWithCoronavirus]" sap:VirtualizedContainerService.HintSize="1536,212.666666666667" sap2010:WorkflowViewState.IdRef="If_6">
+                  <If.Then>
+                    <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_22">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[InOfficeRequirement]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Day Off</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Then>
+                </If>
+                <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{String.Format(&quot;{0}-{1}-{2}&quot;, in_PeriodStartDate.AddDays(DayCounter).Year, in_PeriodStartDate.AddDays(DayCounter).Month, in_PeriodStartDate.AddDays(DayCounter).Day), InOfficeRequirement, EmployeeScheduleID}]" DataTable="[DayInsertQueryDT]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="1536,22" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                <If Condition="[DayCounter = 4]" sap:VirtualizedContainerService.HintSize="1536,406.666666666667" sap2010:WorkflowViewState.IdRef="If_3">
+                  <If.Then>
+                    <Sequence DisplayName="Sequence - First Week Is Done =&gt; Step Through Weekend/Set Following Week's EmployeeSchedule" sap:VirtualizedContainerService.HintSize="304,256" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_9">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[DayCounter + 3]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_15">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[EmployeeScheduleID]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[CInt(EmployeeScheduleQueryResultDT.Rows(1)("id"))]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_10">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Int32">[DayCounter + 1]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Else>
+                </If>
+              </Sequence>
+            </ui:InterruptibleDoWhile.Body>
+            <ui:InterruptibleDoWhile.Condition>
+              <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="DayCounter &lt;= 11" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_2" />
+            </ui:InterruptibleDoWhile.Condition>
+          </ui:InterruptibleDoWhile>
+          <ui:InsertDataTable AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" DataTable="[DayInsertQueryDT]" DisplayName="Insert" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="1614.66666666667,114.666666666667" sap2010:WorkflowViewState.IdRef="InsertDataTable_1" TableName="Office_DB.Days" />
         </Sequence>
       </ui:DatabaseTransaction.Body>
     </ui:DatabaseTransaction>
