@@ -2,8 +2,11 @@ const db = require("../models");
 
 module.exports = {
     findAll: function(req, res) {
-        db.Team.findAll()
-        .then(dbTeamsAll => {
+        db.Team.findAll({
+            include: {
+                model: db.Employee
+            }
+        }).then(dbTeamsAll => {
             res.json(dbTeamsAll);
         });
     },
