@@ -2,16 +2,25 @@ module.exports = function(sequelize, DataTypes) {
     const today = new Date();
 
     const RecurringEvent = sequelize.define("RecurringEvent", {
-        name: DataTypes.STRING,
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        description: DataTypes.STRING,
         dayOfWeek: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: today.getDay()
         },
-        time: {
-            type: DataTypes.DATE,
+        startTime: {
+            type: DataTypes.TIME,
             allowNull: false,
-            defaultValue: sequelize.fn('NOW')
+            defaultValue: today
+        },
+        endTime: {
+            type: DataTypes.TIME,
+            allowNull: false,
+            defaultValue: today
         },
         frequency: {
             type: DataTypes.ENUM("Weekly", "Biweekly", "Monthly"),
