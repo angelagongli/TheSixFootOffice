@@ -7,7 +7,14 @@ router.route("/teamSchedule/:id")
 router.route("/date/:date")
     .get(eventController.findAllByDate);
 
+router.route("/date/following/:date")
+    .get(eventController.findAllUpcomingFollowingDate);
+
 router.route("/")
-    .get(eventController.findAll);
+    .get(eventController.findAll)
+    .post(eventController.create);
+
+router.route("/:id")
+    .put(eventController.update);
 
 module.exports = router;
