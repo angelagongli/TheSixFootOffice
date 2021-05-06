@@ -100,9 +100,9 @@ function AddEmployee(props) {
                     nearestNeighborID: res.data.id
                 }).then(res => {
                     console.log("Newly Added Employee's Nearest Neighbor Updated: " + JSON.stringify(res));
-                    window.setTimeout(() => props.chooseMode(""), 1000);
                 });
             }
+            window.setTimeout(() => props.chooseMode(""), 1000);
         }).catch(err => console.log(err));
     }
 
