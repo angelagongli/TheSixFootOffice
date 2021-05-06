@@ -90,24 +90,28 @@ function EmployeePage() {
                                 selectedKey={chosenTeam ? chosenTeam.key : undefined}
                                 onChange={chooseTeam}
                                 placeholder="Choose Your Team"
-                                options={teamsAll} />
+                                options={teamsAll}
+                                styles={{ dropdown: { width: 300 } }} />
                             : ""}
                             {employeesAll.length ?
-                            (chosenTeam && chosenTeam !== "All" ?
-                            employeesAll.filter(employee =>
-                            employee.TeamId === chosenTeam).map(employee => (
-                                <EmployeeCard
-                                    key={employee.id}
-                                    employee={employee}
-                                    chooseEmployee={chooseEmployee}
-                                    chooseMode={chooseMode} />
-                            )) : employeesAll.map(employee => (
-                                <EmployeeCard
-                                    key={employee.id}
-                                    employee={employee}
-                                    chooseEmployee={chooseEmployee}
-                                    chooseMode={chooseMode} />
-                            ))) : ""}
+                            <div className="cardContainer">
+                                {chosenTeam && chosenTeam !== "All" ?
+                                employeesAll.filter(employee =>
+                                employee.TeamId === chosenTeam).map(employee => (
+                                    <EmployeeCard
+                                        key={employee.id}
+                                        employee={employee}
+                                        chooseEmployee={chooseEmployee}
+                                        chooseMode={chooseMode} />
+                                )) : employeesAll.map(employee => (
+                                    <EmployeeCard
+                                        key={employee.id}
+                                        employee={employee}
+                                        chooseEmployee={chooseEmployee}
+                                        chooseMode={chooseMode} />
+                                ))}
+                            </div>
+                            : ""}
                         </div>
                         <div className="col-6 col-lg-8 container">
                             {mode ?
