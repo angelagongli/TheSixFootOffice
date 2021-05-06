@@ -111,7 +111,8 @@ function UpdateEmployee(props) {
             name: chosenEmployeeName,
             TeamId: chosenTeam,
             seatNumber: chosenSeat,
-            nearestNeighborID: chosenSeatNearestNeighborID ?
+            nearestNeighborID: (chosenSeatNearestNeighborID &&
+                chosenSeatNearestNeighborID !== props.employee.id) ?
                 chosenSeatNearestNeighborID :
                 null, // Empty chosenSeatNearestNeighborID still must be explicitly set
             isFullyVaccinatedAgainstCoronavirus: isFullyVaccinatedAgainstCoronavirus,
@@ -129,7 +130,8 @@ function UpdateEmployee(props) {
                         console.log("Employee's Nearest Neighbor Updated: " + JSON.stringify(res));
                     });
                 }
-                if (chosenSeatNearestNeighborID) {
+                if (chosenSeatNearestNeighborID &&
+                    chosenSeatNearestNeighborID !== props.employee.id) {
                     API.updateEmployee(chosenSeatNearestNeighborID, {
                         nearestNeighborID: props.employee.id
                     }).then(res => {
