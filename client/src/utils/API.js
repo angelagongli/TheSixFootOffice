@@ -42,5 +42,32 @@ export default {
     },
     getDaysAllByDate: function(date) {
         return axios.get("/api/days/date/" + date);
+    },
+    getTeamSchedulesAll: function() {
+        return axios.get("/api/teamSchedules");
+    },
+    getTeamSchedulesAllByTeam: function(id) {
+        return axios.get("/api/teamSchedules/team/" + id);
+    },
+    getTeamScheduleByTeamWeek: function(id, week) {
+        return axios.get(`/api/teamSchedules/team/${id}/${week}`);
+    },
+    getTeamSchedulesAllByWeek: function(week) {
+        return axios.get("/api/teamSchedules/week/" + week);
+    },
+    getEventsAll: function() {
+        return axios.get("/api/events");
+    },
+    getEventsAllByDate: function(date) {
+        return axios.get("/api/events/date/" + date);
+    },
+    getUpcomingEventsAllFollowingDate: function(date) {
+        return axios.get("/api/events/date/following/" + date);
+    },
+    updateEvent: function(id, update) {
+        return axios.put("/api/events/" + id, update);
+    },
+    makeEvent: function(event) {
+        return axios.post("/api/events", event);
     }
 };
