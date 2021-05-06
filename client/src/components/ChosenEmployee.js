@@ -5,7 +5,7 @@ import API from "../utils/API";
 function ChosenEmployee(props) {
     const [employeeSchedule, setEmployeeSchedule] = useState();
     const today = new Date();
-    const beginningOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+    const beginningOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1));
 
     useEffect(() => {
         loadEmployeeSchedule();
@@ -13,7 +13,7 @@ function ChosenEmployee(props) {
 
     function loadEmployeeSchedule() {
         API.getEmployeeScheduleByEmployeeWeek(props.employee.id,
-            `${beginningOfWeek.getFullYear()}-${beginningOfWeek.getMonth() + 1}-${beginningOfWeek.getDate() + 1}`)
+            `${beginningOfWeek.getFullYear()}-${beginningOfWeek.getMonth() + 1}-${beginningOfWeek.getDate()}`)
             .then(res => {
                 setEmployeeSchedule(res.data);
                 console.log("Employee's schedule set");
