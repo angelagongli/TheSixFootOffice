@@ -6,6 +6,13 @@
     margin-bottom: 0px;
 }
 
+.cardContainer {
+    height: 66vh;
+    overflow-y: auto;
+    margin: 10px;
+    padding: 10px;
+}
+
 .card {
     width: 100%;
     margin: 10px;
@@ -62,4 +69,56 @@
 
 .DayOff {
     background-color: lightyellow;
+}
+
+.employeeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 99%;
+    height: 100px;
+    overflow-y: auto;
+}
+
+.eventCardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.eventCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.timebox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.timeIcon {
+    font-size: 32px;
+}
+
+.detailedTime {
+    padding: 10px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 33%;
+    margin: 10px;
 }
