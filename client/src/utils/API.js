@@ -69,5 +69,17 @@ export default {
     },
     makeEvent: function(event) {
         return axios.post("/api/events", event);
+    },
+    getRecurringEventsAll: function() {
+        return axios.get("/api/recurringEvents");
+    },
+    getRecurringEventsAllByTeam: function(id) {
+        return axios.get("/api/recurringEvents/team/" + id);
+    },
+    updateRecurringEvent: function(id, update) {
+        return axios.put("/api/recurringEvents/" + id, update);
+    },
+    makeRecurringEvent: function(recurringEvent) {
+        return axios.post("/api/recurringEvents", recurringEvent);
     }
 };
