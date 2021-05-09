@@ -107,12 +107,12 @@ function MakeOneTimeEvent(props) {
                         date: `${chosenDate.getFullYear()}-${chosenDate.getMonth() + 1}-${chosenDate.getDate()}`,
                         startTime: chosenStartTime,
                         endTime: chosenEndTime,
-                        TeamScheduleId: chosenTeamScheduleID,
+                        TeamScheduleId: chosenTeamScheduleID
                     }).then(res => {
                         setNewEventCreated(true);
                         console.log("Newly Created Event: " + JSON.stringify(res));
                         window.setTimeout(() => props.chooseMode(""), 1000);
-                    }).catch(err => console.log(err));
+                    });
                 }
             }).catch(err => console.log(err));
     }
