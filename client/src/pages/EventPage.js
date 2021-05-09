@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { Navigation } from "../components/Navigation";
 import EventCard from "../components/EventCard";
 import MakeOneTimeEvent from "../components/MakeOneTimeEvent";
-// import MakeRecurringEvent from "../components/MakeRecurringEvent";
+import MakeRecurringEvent from "../components/MakeRecurringEvent";
 import UpdateEvent from "../components/UpdateEvent";
 import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
@@ -139,9 +139,9 @@ function EventPage() {
                                 team.key !== "All")}
                                 chooseMode={chooseMode} />
                             : (mode === "MakeRecurringEvent" ?
-                            `<MakeRecurringEvent teamsAll={teamsAll.filter(team =>
+                            <MakeRecurringEvent teamsAll={teamsAll.filter(team =>
                                 team.key !== "All")}
-                                chooseMode={chooseMode} />`
+                                chooseMode={chooseMode} />
                             : "")))
                             : ""}
                         </div>
