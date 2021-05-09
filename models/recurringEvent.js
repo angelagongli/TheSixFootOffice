@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: today
         },
         frequency: {
-            type: DataTypes.ENUM("Weekly", "Biweekly", "Monthly"),
+            type: DataTypes.ENUM("Daily", "Weekly", "Biweekly", "Monthly"),
             allowNull: false,
             defaultValue: "Weekly"
         },
