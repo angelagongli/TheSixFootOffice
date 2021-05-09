@@ -142,12 +142,12 @@ function UpdateEvent(props) {
                         date: `${chosenDate.getFullYear()}-${chosenDate.getMonth() + 1}-${chosenDate.getDate()}`,
                         startTime: chosenStartTime,
                         endTime: chosenEndTime,
-                        TeamScheduleId: chosenTeamScheduleID,
+                        TeamScheduleId: chosenTeamScheduleID
                     }).then(res => {
                         setChosenEventUpdated(true);
                         console.log("Newly Updated Event: " + JSON.stringify(res));
                         window.setTimeout(() => props.chooseMode(""), 1000);
-                    }).catch(err => console.log(err));
+                    });
                 }
             }).catch(err => console.log(err));
     }
@@ -193,14 +193,22 @@ function UpdateEvent(props) {
                     label={`Choose the Start Time for ${props.event.name}`}
                     selectedKey={chosenStartTime ? chosenStartTime.key : undefined}
                     onChange={chooseStartTime}
-                    placeholder={props.event.startTime}
+                    placeholder={`${props.event.startTime.split(":")[0] % 12 === 0 ?
+                        12 : props.event.startTime.split(":")[0] % 12}:${
+                        props.event.startTime.split(":")[1]} ${
+                        Math.floor(props.event.startTime.split(":")[0]/12) < 1 ?
+                        "AM" : "PM"}`}
                     options={computeTimeChoice("Start")}
                     required />
                 <Dropdown
                     label={`Choose the End Time for ${props.event.name}`}
                     selectedKey={chosenEndTime ? chosenEndTime.key : undefined}
                     onChange={chooseEndTime}
-                    placeholder={props.event.endTime}
+                    placeholder={`${props.event.endTime.split(":")[0] % 12 === 0 ?
+                        12 : props.event.endTime.split(":")[0] % 12}:${
+                        props.event.endTime.split(":")[1]} ${
+                        Math.floor(props.event.endTime.split(":")[0]/12) < 1 ?
+                        "AM" : "PM"}`}
                     options={computeTimeChoice("End")}
                     required />
                 <PrimaryButton
