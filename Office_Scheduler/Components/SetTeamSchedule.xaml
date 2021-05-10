@@ -1,6 +1,15 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="SetTeamSchedule" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1447.33333333333,827.333333333333" sap2010:WorkflowViewState.IdRef="SetTeamSchedule_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="SetTeamSchedule" this:SetTeamSchedule.in_TeamID="1" this:SetTeamSchedule.in_PeriodStartDate="[new DateTime(2021, 5, 10)]" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TeamID" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_PeriodStartDate" Type="InArgument(s:DateTime)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1422.66666666667,4394</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>SetTeamSchedule_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="28">
+    <scg:List x:TypeArguments="x:String" Capacity="30">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -29,10 +38,12 @@
       <x:String>System.Collections.ObjectModel</x:String>
       <x:String>UiPath.Database.Activities</x:String>
       <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -52,36 +63,297 @@
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
       <AssemblyReference>UiPath.Database</AssemblyReference>
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="SetTeamSchedule" sap:VirtualizedContainerService.HintSize="476,544.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="SetTeamSchedule" sap:VirtualizedContainerService.HintSize="1432.66666666667,4289.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:DatabaseConnection" Name="DB_Connection" />
+      <Variable x:TypeArguments="sd:DataTable" Name="RecurringEventInformationDT" />
+      <Variable x:TypeArguments="sd:DataTable" Name="TeamScheduleQueryResultDT" />
+      <Variable x:TypeArguments="sd:DataTable" Name="EventInsertQueryDT" />
+      <Variable x:TypeArguments="x:Int32" Name="TeamScheduleID" />
+      <Variable x:TypeArguments="x:Int32" Name="DayCounter" />
+      <Variable x:TypeArguments="x:Int32" Name="WeekCounter" />
+      <Variable x:TypeArguments="x:Int32" Name="RecurringEventInformationDTRowIndex" />
+      <Variable x:TypeArguments="scg:ICollection(x:Int32)" Name="DailyEventRowIndexCollection" />
+      <Variable x:TypeArguments="scg:ICollection(x:Int32)" Name="WeeklyEventRowIndexCollection" />
+      <Variable x:TypeArguments="scg:ICollection(x:Int32)" Name="BiweeklyEventRowIndexCollection" />
+      <Variable x:TypeArguments="scg:ICollection(x:Int32)" Name="MonthlyEventRowIndexCollection" />
+      <Variable x:TypeArguments="sd:DataRow" Name="WeeklyEvent" />
+      <Variable x:TypeArguments="sd:DataRow" Name="DailyEvent" />
+      <Variable x:TypeArguments="sd:DataRow" Name="BiweeklyEvent" />
+      <Variable x:TypeArguments="sd:DataRow" Name="MonthlyEvent" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="434,452.666666666667" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
+    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="1390.66666666667,4197.33333333333" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
       <ui:DatabaseTransaction.Body>
-        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,344" sap2010:WorkflowViewState.IdRef="Sequence_2">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="sd:DataTable" Name="QueryResult" />
-            <Variable x:TypeArguments="x:String" Name="QueryResultString" />
-          </Sequence.Variables>
+        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1356.66666666667,4088.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[QueryResult]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="INSERT INTO Office_DB.Teams (name) VALUES ('Finance');&#xD;&#xA;INSERT INTO Office_DB.TeamSchedules (weekOf, TeamId) VALUES ('2021-04-19', 1);&#xD;&#xA;SELECT * FROM Office_DB.TeamSchedules;">
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[RecurringEventInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="1314.66666666667,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="SELECT * FROM Office_DB.RecurringEvents WHERE TeamId=@TeamID;">
             <ui:ExecuteQuery.Parameters>
-              <scg:Dictionary x:TypeArguments="x:String, Argument" />
+              <InArgument x:TypeArguments="x:Int32" x:Key="TeamID">[in_TeamID]</InArgument>
             </ui:ExecuteQuery.Parameters>
           </ui:ExecuteQuery>
-          <ui:OutputDataTable DataTable="[QueryResult]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[QueryResultString]" />
-          <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.6666666666667" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[QueryResultString]" />
+          <Assign sap:VirtualizedContainerService.HintSize="1314.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[RecurringEventInformationDTRowIndex]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[RecurringEventInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="1314.66666666667,1006" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+            <ui:ForEachRow.Body>
+              <ActivityAction x:TypeArguments="sd:DataRow">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="1264,856.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If Condition="[row(&quot;frequency&quot;).Equals(&quot;Daily&quot;)]" sap:VirtualizedContainerService.HintSize="1222,662.666666666667" sap2010:WorkflowViewState.IdRef="If_2">
+                    <If.Then>
+                      <AddToCollection x:TypeArguments="x:Int32" Collection="[DailyEventRowIndexCollection]" DisplayName="Add To Collection" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1" Item="[RecurringEventInformationDTRowIndex]" />
+                    </If.Then>
+                    <If.Else>
+                      <If Condition="[row(&quot;frequency&quot;).Equals(&quot;Weekly&quot;)]" sap:VirtualizedContainerService.HintSize="976,512" sap2010:WorkflowViewState.IdRef="If_3">
+                        <If.Then>
+                          <AddToCollection x:TypeArguments="x:Int32" Collection="[WeeklyEventRowIndexCollection]" DisplayName="Add To Collection" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_2" Item="[RecurringEventInformationDTRowIndex]" />
+                        </If.Then>
+                        <If.Else>
+                          <If Condition="[row(&quot;frequency&quot;).Equals(&quot;Biweekly&quot;)]" sap:VirtualizedContainerService.HintSize="730,361.333333333333" sap2010:WorkflowViewState.IdRef="If_5">
+                            <If.Then>
+                              <AddToCollection x:TypeArguments="x:Int32" Collection="[BiweeklyEventRowIndexCollection]" DisplayName="Add To Collection" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_3" Item="[RecurringEventInformationDTRowIndex]" />
+                            </If.Then>
+                            <If.Else>
+                              <If Condition="[row(&quot;frequency&quot;).Equals(&quot;Monthly&quot;)]" sap:VirtualizedContainerService.HintSize="484,210.666666666667" sap2010:WorkflowViewState.IdRef="If_4">
+                                <If.Then>
+                                  <AddToCollection x:TypeArguments="x:Int32" Collection="[MonthlyEventRowIndexCollection]" DisplayName="Add To Collection" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_4" Item="[RecurringEventInformationDTRowIndex]" />
+                                </If.Then>
+                              </If>
+                            </If.Else>
+                          </If>
+                        </If.Else>
+                      </If>
+                    </If.Else>
+                  </If>
+                  <Assign sap:VirtualizedContainerService.HintSize="1222,62" sap2010:WorkflowViewState.IdRef="Assign_8">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[RecurringEventInformationDTRowIndex]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[RecurringEventInformationDTRowIndex + 1]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </ActivityAction>
+            </ui:ForEachRow.Body>
+          </ui:ForEachRow>
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[TeamScheduleQueryResultDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="1314.66666666667,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="INSERT INTO Office_DB.TeamSchedules&#xA;(weekOf, TeamId)&#xA;VALUES (@PeriodStartDate, @TeamID),&#xA;(@PeriodFirstHalfMidpointDate, @TeamID),&#xA;(@PeriodMidpointDate, @TeamID),&#xA;(@PeriodSecondHalfMidpointDate, @TeamID);&#xA;SELECT id FROM Office_DB.TeamSchedules&#xA;WHERE (weekOf=@PeriodStartDate OR&#xA;weekOf=@PeriodFirstHalfMidpointDate OR&#xA;weekOf=@PeriodMidpointDate OR&#xA;@PeriodSecondHalfMidpointDate) AND TeamId=@TeamID&#xA;ORDER BY weekOf;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="x:Int32" x:Key="TeamID">[in_TeamID]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodStartDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.Year, in_PeriodStartDate.Month, in_PeriodStartDate.Day)]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodFirstHalfMidpointDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.AddDays(7).Year, in_PeriodStartDate.AddDays(7).Month, in_PeriodStartDate.AddDays(7).Day)]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodMidpointDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.AddDays(14).Year, in_PeriodStartDate.AddDays(14).Month, in_PeriodStartDate.AddDays(14).Day)]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="PeriodSecondHalfMidpointDate">[String.Format("{0}-{1}-{2}", in_PeriodStartDate.AddDays(21).Year, in_PeriodStartDate.AddDays(21).Month, in_PeriodStartDate.AddDays(21).Day)]</InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <Assign sap:VirtualizedContainerService.HintSize="1314.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[TeamScheduleID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(TeamScheduleQueryResultDT.Rows(0)("id"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="1314.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="1314.66666666667,62" sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[WeekCounter]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:BuildDataTable DataTable="[EventInsertQueryDT]" DisplayName="Build Data Table" sap:VirtualizedContainerService.HintSize="1314.66666666667,58.6666666666667" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; /&gt;&#xA;                &lt;xs:element name=&quot;description&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;date&quot; msdata:Caption=&quot;&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;startTime&quot; msdata:Caption=&quot;&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;endTime&quot; msdata:Caption=&quot;&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;isRecurring&quot; msdata:Caption=&quot;&quot; type=&quot;xs:boolean&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;TeamScheduleId&quot; msdata:Caption=&quot;&quot; type=&quot;xs:int&quot; /&gt;&#xA;                &lt;xs:element name=&quot;RecurringEventId&quot; msdata:Caption=&quot;&quot; type=&quot;xs:int&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+          <ui:InterruptibleDoWhile Condition="[WeekCounter &lt; 4]" DisplayName="Do While" sap:VirtualizedContainerService.HintSize="1314.66666666667,2189.33333333333" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+            <ui:InterruptibleDoWhile.Body>
+              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="526,2020" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:ForEach x:TypeArguments="x:Int32" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="484,289.333333333333" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[DailyEventRowIndexCollection]">
+                  <ui:ForEach.Body>
+                    <ActivityAction x:TypeArguments="x:Int32">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="x:Int32" Name="eventRowIndex" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="304,154" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_9">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataRow">[DailyEvent]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataRow">[RecurringEventInformationDT.Rows(eventRowIndex)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEach.Body>
+                </ui:ForEach>
+                <ui:ForEach x:TypeArguments="x:Int32" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="484,289.333333333333" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[WeeklyEventRowIndexCollection]">
+                  <ui:ForEach.Body>
+                    <ActivityAction x:TypeArguments="x:Int32">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="x:Int32" Name="eventRowIndex" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="304,154" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                        <Sequence.Variables>
+                          <Variable x:TypeArguments="sd:DataRow" Name="DailyEvent" />
+                        </Sequence.Variables>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_10">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataRow">[WeeklyEvent]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataRow">[RecurringEventInformationDT.Rows(eventRowIndex)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEach.Body>
+                </ui:ForEach>
+                <ui:ForEach x:TypeArguments="x:Int32" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="484,289.333333333333" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[BiweeklyEventRowIndexCollection]">
+                  <ui:ForEach.Body>
+                    <ActivityAction x:TypeArguments="x:Int32">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="x:Int32" Name="eventRowIndex" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="304,154" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_11">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataRow">[BiweeklyEvent]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataRow">[RecurringEventInformationDT.Rows(eventRowIndex)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEach.Body>
+                </ui:ForEach>
+                <ui:ForEach x:TypeArguments="x:Int32" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="484,289.333333333333" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[MonthlyEventRowIndexCollection]">
+                  <ui:ForEach.Body>
+                    <ActivityAction x:TypeArguments="x:Int32">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="x:Int32" Name="eventRowIndex" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="304,154" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_12">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="sd:DataRow">[MonthlyEvent]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="sd:DataRow">[RecurringEventInformationDT.Rows(eventRowIndex)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:ForEach.Body>
+                </ui:ForEach>
+                <Assign sap:VirtualizedContainerService.HintSize="484,62" sap2010:WorkflowViewState.IdRef="Assign_4">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[DayCounter + 1]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <If Condition="[DayCounter = 5]" sap:VirtualizedContainerService.HintSize="484,508.666666666667" sap2010:WorkflowViewState.IdRef="If_1">
+                  <If.Then>
+                    <Sequence sap:VirtualizedContainerService.HintSize="304,358" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_5">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_6">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[WeekCounter]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[WeekCounter + 1]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_13">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[TeamScheduleID]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[CInt(TeamScheduleQueryResultDT.Rows(WeekCounter)("id"))]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </Sequence>
+                  </If.Then>
+                </If>
+              </Sequence>
+            </ui:InterruptibleDoWhile.Body>
+          </ui:InterruptibleDoWhile>
         </Sequence>
       </ui:DatabaseTransaction.Body>
     </ui:DatabaseTransaction>
