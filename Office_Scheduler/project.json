@@ -3,6 +3,7 @@
   "description": "Automation of the part of the office's schedule-setting process for the week involving computing the required in-person schedule of all employees to maximize in-person attendance based on the week's set maximum allowed office capacity, employees' team's schedule and the office's seating layout",
   "main": "Main.xaml",
   "dependencies": {
+    "UiPath.Database.Activities": "[1.4.0]",
     "UiPath.Excel.Activities": "[2.9.3]",
     "UiPath.System.Activities": "[20.10.1]",
     "UiPath.UIAutomation.Activities": "[20.10.6]"
