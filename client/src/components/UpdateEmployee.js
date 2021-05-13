@@ -177,7 +177,7 @@ function UpdateEmployee(props) {
                     {props.teamsAll.length ?
                     <Dropdown
                         label={`Set ${props.employee.name}'s Team`}
-                        selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                        selectedKey={chosenTeam ? chosenTeam : undefined}
                         onChange={chooseTeam}
                         placeholder={props.employee.Team.name}
                         options={computeTeamChoice(props.teamsAll)}
@@ -186,7 +186,7 @@ function UpdateEmployee(props) {
                     {Object.entries(props.employeeSeatLookUp).length ?
                     <Dropdown
                         label={`Assign ${props.employee.name}'s Seat`}
-                        selectedKey={chosenSeat ? chosenSeat.key : undefined}
+                        selectedKey={chosenSeat ? chosenSeat : undefined}
                         onChange={chooseSeat}
                         placeholder={props.employee.seatNumber}
                         options={computeSeatChoice(props.employeeSeatLookUp)}
