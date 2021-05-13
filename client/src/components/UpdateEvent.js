@@ -175,7 +175,7 @@ function UpdateEvent(props) {
                 {props.teamsAll.length ?
                 <Dropdown
                     label={`Choose the Team for ${props.event.name}`}
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                    selectedKey={chosenTeam ? chosenTeam : undefined}
                     onChange={chooseTeam}
                     placeholder={props.teamNameIDLookUp[props.event.TeamSchedule.TeamId]}
                     options={computeTeamChoice(props.teamsAll)}
@@ -191,7 +191,7 @@ function UpdateEvent(props) {
                     isRequired />
                 <Dropdown
                     label={`Choose the Start Time for ${props.event.name}`}
-                    selectedKey={chosenStartTime ? chosenStartTime.key : undefined}
+                    selectedKey={chosenStartTime ? chosenStartTime : undefined}
                     onChange={chooseStartTime}
                     placeholder={`${props.event.startTime.split(":")[0] % 12 === 0 ?
                         12 : props.event.startTime.split(":")[0] % 12}:${
@@ -202,7 +202,7 @@ function UpdateEvent(props) {
                     required />
                 <Dropdown
                     label={`Choose the End Time for ${props.event.name}`}
-                    selectedKey={chosenEndTime ? chosenEndTime.key : undefined}
+                    selectedKey={chosenEndTime ? chosenEndTime : undefined}
                     onChange={chooseEndTime}
                     placeholder={`${props.event.endTime.split(":")[0] % 12 === 0 ?
                         12 : props.event.endTime.split(":")[0] % 12}:${
