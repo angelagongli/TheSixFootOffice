@@ -140,7 +140,7 @@ function MakeOneTimeEvent(props) {
                 {props.teamsAll.length ?
                 <Dropdown
                     label="Choose the Team for Your New Event"
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                    selectedKey={chosenTeam ? chosenTeam : undefined}
                     onChange={chooseTeam}
                     placeholder="Choose Your Team"
                     options={props.teamsAll}
@@ -156,14 +156,14 @@ function MakeOneTimeEvent(props) {
                     isRequired />
                 <Dropdown
                     label="Choose the Start Time for Your New Event"
-                    selectedKey={chosenStartTime ? chosenStartTime.key : undefined}
+                    selectedKey={chosenStartTime ? chosenStartTime : undefined}
                     onChange={chooseStartTime}
                     placeholder="Choose Your New Event's Start Time"
                     options={computeTimeChoice("Start")}
                     required />
                 <Dropdown
                     label="Choose the End Time for Your New Event"
-                    selectedKey={chosenEndTime ? chosenEndTime.key : undefined}
+                    selectedKey={chosenEndTime ? chosenEndTime : undefined}
                     onChange={chooseEndTime}
                     placeholder="Choose Your New Event's End Time"
                     options={computeTimeChoice("End")}
