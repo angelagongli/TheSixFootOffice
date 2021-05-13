@@ -7,11 +7,6 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         description: DataTypes.STRING,
-        dayOfWeek: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: today.getDay()
-        },
         startTime: {
             type: DataTypes.TIME,
             allowNull: false,
@@ -26,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.ENUM("Daily", "Weekly", "Biweekly", "Monthly"),
             allowNull: false,
             defaultValue: "Weekly"
+        },
+        dayOfWeek: {
+            type: DataTypes.INTEGER,
+            defaultValue: today.getDay()
         },
         weekOfMonth: DataTypes.INTEGER,
         createdAt: {
