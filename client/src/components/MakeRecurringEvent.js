@@ -174,10 +174,12 @@ function MakeRecurringEvent(props) {
         API.makeRecurringEvent({
             name: newEventName,
             description: newEventDescription,
-            dayOfWeek: chosenDayOfWeek,
             startTime: chosenStartTime,
             endTime: chosenEndTime,
             frequency: chosenFrequency,
+            dayOfWeek: chosenFrequency !== "Daily" ?
+                chosenDayOfWeek :
+                null, // Empty dayOfWeek still must be explicitly set
             weekOfMonth: chosenWeekOfMonth,
             TeamId: chosenTeam
         }).then(res => {
@@ -210,44 +212,46 @@ function MakeRecurringEvent(props) {
                 {props.teamsAll.length ?
                 <Dropdown
                     label="Choose the Team for Your New Event"
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                    selectedKey={chosenTeam ? chosenTeam : undefined}
                     onChange={chooseTeam}
                     placeholder="Choose Your Team"
                     options={props.teamsAll}
                     required />
                 : ""}
                 <Dropdown
-                    label="Choose the Day of Week for Your New Event"
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
-                    onChange={chooseDayOfWeek}
-                    placeholder="Choose Your New Event's Day of the Week"
-                    options={computeDayOfWeekChoice()}
-                    required />
-                <Dropdown
                     label="Choose the Start Time for Your New Event"
-                    selectedKey={chosenStartTime ? chosenStartTime.key : undefined}
+                    selectedKey={chosenStartTime ? chosenStartTime : undefined}
                     onChange={chooseStartTime}
                     placeholder="Choose Your New Event's Start Time"
                     options={computeTimeChoice("Start")}
                     required />
                 <Dropdown
                     label="Choose the End Time for Your New Event"
-                    selectedKey={chosenEndTime ? chosenEndTime.key : undefined}
+                    selectedKey={chosenEndTime ? chosenEndTime : undefined}
                     onChange={chooseEndTime}
                     placeholder="Choose Your New Event's End Time"
                     options={computeTimeChoice("End")}
                     required />
                 <Dropdown
                     label="Choose the Frequency of Your New Event"
-                    selectedKey={chosenFrequency ? chosenFrequency.key : undefined}
+                    selectedKey={chosenFrequency ? chosenFrequency : undefined}
                     onChange={chooseFrequency}
                     placeholder="Choose Your New Event's Frequency"
                     options={frequencyChoice}
                     required />
+                {chosenFrequency && chosenFrequency !== "Daily" ?
+                <Dropdown
+                    label="Choose the Day of Week for Your New Event"
+                    selectedKey={chosenDayOfWeek ? chosenDayOfWeek : undefined}
+                    onChange={chooseDayOfWeek}
+                    placeholder="Choose Your New Event's Day of the Week"
+                    options={computeDayOfWeekChoice()}
+                    required />
+                : ""}
                 {chosenFrequency && chosenFrequency === "Biweekly" ?
                 <Dropdown
                     label="Choose the Week of Month for Your New Event"
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                    selectedKey={chosenWeekOfMonth ? chosenWeekOfMonth : undefined}
                     onChange={chooseWeekOfMonth}
                     placeholder="Choose Your New Event's Week of the Month"
                     options={computeWeekOfMonthChoice("Biweekly")}
@@ -255,7 +259,7 @@ function MakeRecurringEvent(props) {
                 : (chosenFrequency && chosenFrequency === "Monthly" ?
                 <Dropdown
                     label="Choose the Week of Month for Your New Event"
-                    selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                    selectedKey={chosenWeekOfMonth ? chosenWeekOfMonth : undefined}
                     onChange={chooseWeekOfMonth}
                     placeholder="Choose Your New Event's Week of the Month"
                     options={computeWeekOfMonthChoice("Monthly")}
