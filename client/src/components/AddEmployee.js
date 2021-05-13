@@ -15,6 +15,7 @@ const columnProps = {
 
 function AddEmployee(props) {
     const [newEmployeeName, setNewEmployeeName] = useState("");
+    const [newEmployeeEmailAddress, setNewEmployeeEmailAddress] = useState("");
     const [chosenTeam, setChosenTeam] = useState();
     const [chosenSeat, setChosenSeat] = useState();
     const [isFullyVaccinatedAgainstCoronavirus, setIsFullyVaccinatedAgainstCoronavirus] = useState(false);
@@ -26,6 +27,13 @@ function AddEmployee(props) {
     const onNewEmployeeNameChange = useCallback(
         (event, newNameValue) => {
             setNewEmployeeName(newNameValue || '');
+        },
+        [],
+    );
+
+    const onNewEmployeeEmailAddressChange = useCallback(
+        (event, newEmailAddressValue) => {
+            setNewEmployeeEmailAddress(newEmailAddressValue || '');
         },
         [],
     );
@@ -85,6 +93,7 @@ function AddEmployee(props) {
             props.employeeSeatLookUp[chosenSeat - 1];
         API.addEmployee({
             name: newEmployeeName,
+            emailAddress: newEmployeeEmailAddress,
             TeamId: chosenTeam,
             seatNumber: chosenSeat,
             nearestNeighborID: chosenSeatNearestNeighborID,
@@ -121,6 +130,11 @@ function AddEmployee(props) {
                         label="Employee's Name"
                         value={newEmployeeName}
                         onChange={onNewEmployeeNameChange}
+                        required />
+                    <TextField
+                        label="Employee's Email Address"
+                        value={newEmployeeEmailAddress}
+                        onChange={onNewEmployeeEmailAddressChange}
                         required />
                     {props.teamsAll.length ?
                     <Dropdown
