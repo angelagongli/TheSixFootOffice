@@ -15,6 +15,7 @@ const columnProps = {
 
 function UpdateEmployee(props) {
     const [chosenEmployeeName, setChosenEmployeeName] = useState(props.employee.name);
+    const [chosenEmployeeEmailAddress, setChosenEmployeeEmailAddress] = useState(props.employee.emailAddress);
     const [chosenTeam, setChosenTeam] = useState(props.employee.TeamId);
     const [chosenSeat, setChosenSeat] = useState(props.employee.seatNumber);
     const [isFullyVaccinatedAgainstCoronavirus, setIsFullyVaccinatedAgainstCoronavirus] = useState(props.employee.isFullyVaccinatedAgainstCoronavirus);
@@ -25,6 +26,7 @@ function UpdateEmployee(props) {
 
     useEffect(() => {
         setChosenEmployeeName(props.employee.name);
+        setChosenEmployeeEmailAddress(props.employee.emailAddress);
         setChosenTeam(props.employee.TeamId);
         setChosenSeat(props.employee.seatNumber);
         setIsFullyVaccinatedAgainstCoronavirus(props.employee.isFullyVaccinatedAgainstCoronavirus);
@@ -36,6 +38,13 @@ function UpdateEmployee(props) {
     const onChosenEmployeeNameChange = useCallback(
         (event, newNameValue) => {
             setChosenEmployeeName(newNameValue || '');
+        },
+        [],
+    );
+
+    const onChosenEmployeeEmailAddressChange = useCallback(
+        (event, newEmailAddressValue) => {
+            setChosenEmployeeEmailAddress(newEmailAddressValue || '');
         },
         [],
     );
@@ -109,6 +118,7 @@ function UpdateEmployee(props) {
             props.employeeSeatLookUp[chosenSeat - 1];
         API.updateEmployee(props.employee.id, {
             name: chosenEmployeeName,
+            emailAddress: chosenEmployeeEmailAddress,
             TeamId: chosenTeam,
             seatNumber: chosenSeat,
             nearestNeighborID: (chosenSeatNearestNeighborID &&
@@ -158,6 +168,11 @@ function UpdateEmployee(props) {
                         label="Employee's Name"
                         value={chosenEmployeeName}
                         onChange={onChosenEmployeeNameChange}
+                        required />
+                    <TextField
+                        label="Employee's Email Address"
+                        value={chosenEmployeeEmailAddress}
+                        onChange={onChosenEmployeeEmailAddressChange}
                         required />
                     {props.teamsAll.length ?
                     <Dropdown
