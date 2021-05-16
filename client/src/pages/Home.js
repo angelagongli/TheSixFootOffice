@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { Navigation } from "../components/Navigation";
+import OfficeSetting from "../components/OfficeSetting";
 import OfficeSchedule from "../components/OfficeSchedule";
 import OfficeFloorPlan from "../components/OfficeFloorPlan";
 import Seat from "../components/Seat";
@@ -47,6 +48,7 @@ function Home() {
                     <h2>
                         Welcome to the Six-Foot Office
                     </h2>
+                    <OfficeSetting />
                     <OfficeSchedule employeeNameIDLookUp={employeeNameIDLookUp} />
                     <OfficeFloorPlan chooseSeat={chooseSeat} />
                     {chosenSeat ?
