@@ -6,6 +6,7 @@ const teamScheduleRoutes = require("./teamSchedules");
 const dayRoutes = require("./days");
 const eventRoutes = require("./events");
 const recurringEventRoutes = require("./recurringEvents");
+const officeSettingRoutes = require("./officeSettings");
 
 router.use("/employees", employeeRoutes);
 router.use("/teams", teamRoutes);
@@ -14,5 +15,6 @@ router.use("/teamSchedules", teamScheduleRoutes);
 router.use("/days", dayRoutes);
 router.use("/events", eventRoutes);
 router.use("/recurringEvents", recurringEventRoutes);
+router.use("/officeSettings", officeSettingRoutes);
 
 module.exports = router;
