@@ -95,7 +95,7 @@ function EventPage() {
                             {teamsAll.length ?
                             <Dropdown
                                 label="Restrict Events to Your Chosen Team"
-                                selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                                selectedKey={chosenTeam ? chosenTeam : undefined}
                                 onChange={chooseTeam}
                                 placeholder="Choose Your Team"
                                 options={teamsAll}
