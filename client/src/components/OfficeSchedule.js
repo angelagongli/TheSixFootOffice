@@ -44,8 +44,11 @@ function OfficeSchedule(props) {
         <div className="row g-0">
             <div className="col-6 col-lg-4 container">
                 <h5>
-                    Chosen Date: {chosenDate?.toDateString() || 'Chosen Date Not Yet Set'}
+                    Go Back/Forward in Time in the Office
                 </h5>
+                <div>
+                    Chosen Date: {chosenDate?.toDateString() || 'Chosen Date Not Yet Set'}
+                </div>
                 <Calendar
                     dateRangeType={dateRangeType}
                     highlightChosenMonth
@@ -64,6 +67,9 @@ function OfficeSchedule(props) {
                     <h5>
                         Schedule of All Office on {chosenDate.toDateString()}
                     </h5>
+                    <div>
+                        {daysAllOfficeAllOnChosenDate.length} Employees in the Office on {chosenDate.toDateString()}
+                    </div>
                     <div className="dayCardContainer">
                         {daysAllOfficeAllOnChosenDate.map(day => (
                             <DayCard
