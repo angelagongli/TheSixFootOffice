@@ -87,7 +87,7 @@ function EmployeePage() {
                             {teamsAll.length ?
                             <Dropdown
                                 label="Restrict Employees to Your Chosen Team"
-                                selectedKey={chosenTeam ? chosenTeam.key : undefined}
+                                selectedKey={chosenTeam ? chosenTeam : undefined}
                                 onChange={chooseTeam}
                                 placeholder="Choose Your Team"
                                 options={teamsAll}
