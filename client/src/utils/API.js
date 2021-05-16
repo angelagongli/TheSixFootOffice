@@ -81,5 +81,11 @@ export default {
     },
     makeRecurringEvent: function(recurringEvent) {
         return axios.post("/api/recurringEvents", recurringEvent);
+    },
+    getOfficeSettingsAll: function() {
+        return axios.get("/api/officeSettings");
+    },
+    getOfficeSettingByWeek: function(week) {
+        return axios.get("/api/officeSettings/week/" + week);
     }
 };
