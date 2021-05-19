@@ -1,0 +1,148 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="MakeOfficeNeighborScheduleResolutionForWeek" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_NearestOfficeNeighborA_ID" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_NearestOfficeNeighborB_ID" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_WeekOf" Type="InArgument(s:DateTime)" />
+    <x:Property Name="out_OfficeNeighborScheduleRequestA_ID" Type="OutArgument(x:Int32)" />
+    <x:Property Name="out_OfficeNeighborScheduleRequestB_ID" Type="OutArgument(x:Int32)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1340.66666666667,918</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>MakeOfficeNeighborScheduleResolutionForWeek_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="30">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>UiPath.Database.Activities</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="28">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="MakeOfficeNeighborScheduleResolutionForWeek" sap:VirtualizedContainerService.HintSize="476,813.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="ui:DatabaseConnection" Name="DB_Connection" />
+      <Variable x:TypeArguments="x:Int32" Name="OfficeNeighborScheduleResolutionID" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OfficeNeighborScheduleResolutionQueryResultDT" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OfficeNeighborScheduleRequestQueryResultDT" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="434,721.333333333333" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
+      <ui:DatabaseTransaction.Body>
+        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,612.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleResolutionQueryResultDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="INSERT INTO Office_DB.OfficeNeighborScheduleResolutions&#xD;&#xA;(weekOf, NearestOfficeNeighborAId, NearestOfficeNeighborBId)&#xD;&#xA;VALUES (@WeekOf, @NearestOfficeNeighborAId, @NearestOfficeNeighborBId);&#xD;&#xA;SELECT id FROM Office_DB.OfficeNeighborScheduleResolutions&#xD;&#xA;WHERE weekOf=@WeekOf AND NearestOfficeNeighborAId=@NearestOfficeNeighborAId AND NearestOfficeNeighborBId=@NearestOfficeNeighborBId;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="s:DateTime" x:Key="WeekOf">
+                <mva:VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="in_WeekOf" />
+              </InArgument>
+              <InArgument x:TypeArguments="x:Int32" x:Key="NearestOfficeNeighborAId">
+                <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="in_NearestOfficeNeighborA_ID" />
+              </InArgument>
+              <InArgument x:TypeArguments="x:Int32" x:Key="NearestOfficeNeighborBId">
+                <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="in_NearestOfficeNeighborB_ID" />
+              </InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[OfficeNeighborScheduleResolutionID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(OfficeNeighborScheduleResolutionQueryResultDT.Rows(0)("id"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleRequestQueryResultDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="INSERT INTO Office_DB.OfficeNeighborScheduleRequests&#xD;&#xA;(nearestOfficeNeighborRole, OfficeNeighborScheduleResolutionId)&#xD;&#xA;VALUES ('NearestOfficeNeighborA', @OfficeNeighborScheduleResolutionId),&#xD;&#xA;('NearestOfficeNeighborB', @OfficeNeighborScheduleResolutionId);&#xD;&#xA;SELECT id FROM Office_DB.OfficeNeighborScheduleRequests&#xD;&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionId&#xD;&#xA;ORDER BY nearestOfficeNeighborRole;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionId">
+                <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="OfficeNeighborScheduleResolutionID" />
+              </InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_12">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[out_OfficeNeighborScheduleRequestA_ID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(OfficeNeighborScheduleRequestQueryResultDT.Rows(0)("id"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_13">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[out_OfficeNeighborScheduleRequestB_ID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(OfficeNeighborScheduleRequestQueryResultDT.Rows(1)("id"))]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:DatabaseTransaction.Body>
+    </ui:DatabaseTransaction>
+  </Sequence>
+</Activity>
