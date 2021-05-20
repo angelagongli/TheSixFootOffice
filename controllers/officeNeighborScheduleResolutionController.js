@@ -25,6 +25,29 @@ module.exports = {
             res.json(dbOfficeNeighborScheduleResolutionsAll);
         });
     },
+    findByID: function(req, res) {
+        db.OfficeNeighborScheduleResolution.findOne({
+            include: [
+                {
+                    model: db.Employee,
+                    as: "NearestOfficeNeighborA"
+                },
+                {
+                    model: db.Employee,
+                    as: "NearestOfficeNeighborB"
+                },
+                {
+                    model: db.OfficeNeighborScheduleRequest
+                },
+                {
+                    model: db.OfficeNeighborScheduleResult
+                }
+            ],
+            where: { id: req.params.id }
+        }).then(dbOfficeNeighborScheduleResolution => {
+            res.json(dbOfficeNeighborScheduleResolution);
+        });
+    },
     findAllByEmployee: function(req, res) {
         db.OfficeNeighborScheduleResolution.findAll({
             include: [
@@ -122,5 +145,5 @@ module.exports = {
         }).catch(err => {
             res.status(422).json(err);
         });
-    },
+    }
 }
