@@ -14,6 +14,7 @@ router.route("/")
     .get(officeNeighborScheduleResolutionController.findAll);
 
 router.route("/:id")
+    .get(officeNeighborScheduleResolutionController.findByID)
     .put(officeNeighborScheduleResolutionController.update);
 
 module.exports = router;
