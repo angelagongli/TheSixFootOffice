@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import TeamPage from "./pages/TeamPage";
 import EmployeePage from "./pages/EmployeePage";
 import EventPage from "./pages/EventPage";
+import OfficeNeighborScheduleResolutionPage from "./pages/OfficeNeighborScheduleResolutionPage";
 import '@fluentui/react/dist/css/fabric.css';
 import "./assets/css/style.css";
 
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route exact path="/event">
             <EventPage />
+          </Route>
+          <Route exact path="/officeNeighborScheduleResolution/:ID">
+            <OfficeNeighborScheduleResolutionPage />
           </Route>
           <Route>
             <Home />
