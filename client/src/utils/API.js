@@ -87,5 +87,41 @@ export default {
     },
     getOfficeSettingByWeek: function(week) {
         return axios.get("/api/officeSettings/week/" + week);
+    },
+    getOfficeNeighborScheduleResolutionsAll: function() {
+        return axios.get("/api/officeNeighborScheduleResolutions");
+    },
+    getOfficeNeighborScheduleResolutionByID: function(id) {
+        return axios.get("/api/officeNeighborScheduleResolutions/" + id);
+    },
+    getOfficeNeighborScheduleResolutionsAllByEmployee: function(id) {
+        return axios.get("/api/officeNeighborScheduleResolutions/employee/" + id);
+    },
+    getOfficeNeighborScheduleResolutionByEmployeeWeek: function(id, week) {
+        return axios.get(`/api/officeNeighborScheduleResolutions/employee/${id}/${week}`);
+    },
+    getOfficeNeighborScheduleResolutionsAllByWeek: function(week) {
+        return axios.get("/api/officeNeighborScheduleResolutions/week/" + week);
+    },
+    updateOfficeNeighborScheduleResolution: function(id, update) {
+        return axios.put("/api/officeNeighborScheduleResolutions/" + id, update);
+    },
+    getOfficeNeighborScheduleRequestsAll: function() {
+        return axios.get("/api/officeNeighborScheduleRequests");
+    },
+    getOfficeNeighborScheduleRequestsAllByOfficeNeighborScheduleResolution: function(id) {
+        return axios.get("/api/officeNeighborScheduleRequests/officeNeighborScheduleResolution/" + id);
+    },
+    updateOfficeNeighborScheduleRequest: function(id, update) {
+        return axios.put("/api/officeNeighborScheduleRequests/" + id, update);
+    },
+    getOfficeNeighborScheduleRequestDaysAll: function() {
+        return axios.get("/api/officeNeighborScheduleRequestDays");
+    },
+    getOfficeNeighborScheduleRequestDaysAllByOfficeNeighborScheduleRequest: function(id) {
+        return axios.get("/api/officeNeighborScheduleRequestDays/officeNeighborScheduleRequest/" + id);
+    },
+    updateOfficeNeighborScheduleRequestDay: function(id, update) {
+        return axios.put("/api/officeNeighborScheduleRequestDays/" + id, update);
     }
 };
