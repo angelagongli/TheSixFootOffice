@@ -1,9 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
     const OfficeNeighborScheduleRequest = sequelize.define("OfficeNeighborScheduleRequest", {
         officeNeighborScheduleRequestPhase: {
-            type: DataTypes.ENUM("Submitted", "Re-Submitted"),
+            type: DataTypes.ENUM("Generated", "Submitted", "Re-Submitted"),
             allowNull: false,
-            defaultValue: "Submitted"
+            defaultValue: "Generated"
         },
         nearestOfficeNeighborRole: {
             type: DataTypes.ENUM("NearestOfficeNeighborA", "NearestOfficeNeighborB"),
