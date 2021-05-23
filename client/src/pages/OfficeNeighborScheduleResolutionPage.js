@@ -71,6 +71,8 @@ function OfficeNeighborScheduleResolutionPage() {
                         employee={nearestOfficeNeighborASchedule.Employee}
                         employeeScheduleDays={nearestOfficeNeighborASchedule.Days}
                         officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[0].OfficeNeighborScheduleRequestDays}
+                        officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[0].id}
+                        officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[0].officeNeighborScheduleRequestPhase}
                     />
                     : ""}
                     {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborBSchedule ?
@@ -78,6 +80,8 @@ function OfficeNeighborScheduleResolutionPage() {
                         employee={nearestOfficeNeighborBSchedule.Employee}
                         employeeScheduleDays={nearestOfficeNeighborBSchedule.Days}
                         officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[1].OfficeNeighborScheduleRequestDays}
+                        officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[1].id}
+                        officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[1].officeNeighborScheduleRequestPhase}
                     />
                     : ""}
                 </div>
