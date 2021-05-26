@@ -47,6 +47,7 @@ function OfficeNeighborScheduleRequestWeek(props) {
                 officeNeighborScheduleRequestPhase: officeNeighborScheduleRequestNewPhase
             }).then(res => {
                 console.log("Newly Updated Office Neighbor Schedule Request: " + JSON.stringify(res));
+                props.setOfficeNeighborScheduleRequestUpdated(true);
             }).catch(err => console.log(err));
         }
     }
