@@ -10,11 +10,13 @@ function OfficeNeighborScheduleResolutionPage() {
     const [officeNeighborScheduleRequestsAll, setOfficeNeighborScheduleRequestsAll] = useState([]);
     const [nearestOfficeNeighborASchedule, setNearestOfficeNeighborASchedule] = useState();
     const [nearestOfficeNeighborBSchedule, setNearestOfficeNeighborBSchedule] = useState();
+    const [officeNeighborScheduleRequestUpdated, setOfficeNeighborScheduleRequestUpdated] = useState(false);
     const { ID } = useParams();
 
     useEffect(() => {
         loadOfficeNeighborScheduleResolution();
-    }, []);
+        window.setTimeout(() => setOfficeNeighborScheduleRequestUpdated(false), 1000);
+    }, [officeNeighborScheduleRequestUpdated]);
 
     function loadOfficeNeighborScheduleResolution() {
         API.getOfficeNeighborScheduleResolutionByID(ID)
@@ -66,6 +68,7 @@ function OfficeNeighborScheduleResolutionPage() {
                         Between {officeNeighborScheduleResolution.NearestOfficeNeighborA.name} and {officeNeighborScheduleResolution.NearestOfficeNeighborB.name} for the Week of {formatDate(officeNeighborScheduleResolution.weekOf)}
                     </h5>
                     : ""}
+                    {officeNeighborScheduleRequestUpdated ? "Your In Office Requirement Request for the Week Has Been Submitted!" : ""}
                     {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborASchedule ?
                     <OfficeNeighborScheduleRequestWeek
                         employee={nearestOfficeNeighborASchedule.Employee}
@@ -73,6 +76,7 @@ function OfficeNeighborScheduleResolutionPage() {
                         officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[0].OfficeNeighborScheduleRequestDays}
                         officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[0].id}
                         officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[0].officeNeighborScheduleRequestPhase}
+                        setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
                     />
                     : ""}
                     {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborBSchedule ?
@@ -82,6 +86,7 @@ function OfficeNeighborScheduleResolutionPage() {
                         officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[1].OfficeNeighborScheduleRequestDays}
                         officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[1].id}
                         officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[1].officeNeighborScheduleRequestPhase}
+                        setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
                     />
                     : ""}
                 </div>
