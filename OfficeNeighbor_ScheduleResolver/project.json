@@ -3,6 +3,7 @@
   "description": "Automation of the part of the office's schedule-setting process for the week involving resolving the week's schedule with your nearest office neighbor",
   "main": "Main.xaml",
   "dependencies": {
+    "UiPath.Database.Activities": "[1.4.0]",
     "UiPath.Excel.Activities": "[2.9.3]",
     "UiPath.Mail.Activities": "[1.9.3]",
     "UiPath.System.Activities": "[20.10.1]",
