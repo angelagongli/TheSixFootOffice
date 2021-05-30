@@ -1,0 +1,190 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="StartDailyPollingOfOfficeNeighborScheduleRequestTable" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_EmployeeInformationDT" Type="InArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1342.66666666667,1971.33333333333</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>StartDailyPollingOfOfficeNeighborScheduleRequestTable_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="28">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Database.Activities</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="StartDailyPollingOfOfficeNeighborScheduleRequestTable" sap:VirtualizedContainerService.HintSize="732.666666666667,1906.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="ui:DatabaseConnection" Name="DB_Connection" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OfficeNeighborScheduleResolutionInformationDT" />
+      <Variable x:TypeArguments="s:DateTime" Name="WeekOf" />
+      <Variable x:TypeArguments="x:Int32" Name="OfficeNeighborScheduleResolutionID" />
+      <Variable x:TypeArguments="sd:DataTable" Name="OfficeNeighborScheduleRequestInformationDT" />
+      <Variable x:TypeArguments="x:String" Name="OfficeNeighborScheduleResolutionPhase" />
+      <Variable x:TypeArguments="sd:DataRow[]" Name="OfficeNeighborScheduleRequestsReSubmitted" />
+      <Variable x:TypeArguments="sd:DataRow[]" Name="OfficeNeighborScheduleRequestsSubmitted" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="690.666666666667,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:DateTime">[WeekOf]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:DateTime">[DateTime.Today.AddDays(1 - DateTime.Today.DayOfWeek)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="690.666666666667,1712.66666666667" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
+      <ui:DatabaseTransaction.Body>
+        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="656.666666666667,1604" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="614.666666666667,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleResolutions&#xD;&#xA;WHERE weekOf=@WeekOf;">
+            <ui:ExecuteQuery.Parameters>
+              <InArgument x:TypeArguments="s:DateTime" x:Key="WeekOf">
+                <mva:VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="WeekOf" />
+              </InArgument>
+            </ui:ExecuteQuery.Parameters>
+          </ui:ExecuteQuery>
+          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="614.666666666667,1384.66666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+            <ui:ForEachRow.Body>
+              <ActivityAction x:TypeArguments="sd:DataRow">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="564,1235.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign sap:VirtualizedContainerService.HintSize="522,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[OfficeNeighborScheduleResolutionID]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[CInt(row("id"))]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign sap:VirtualizedContainerService.HintSize="522,62" sap2010:WorkflowViewState.IdRef="Assign_3">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[OfficeNeighborScheduleResolutionPhase]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[row("officeNeighborScheduleResolutionPhase").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleRequestInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="522,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleRequests&#xD;&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                    <ui:ExecuteQuery.Parameters>
+                      <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">
+                        <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="OfficeNeighborScheduleResolutionID" />
+                      </InArgument>
+                    </ui:ExecuteQuery.Parameters>
+                  </ui:ExecuteQuery>
+                  <Assign sap:VirtualizedContainerService.HintSize="522,62" sap2010:WorkflowViewState.IdRef="Assign_4">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestsReSubmitted]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestInformationDT.Select("[officeNeighborScheduleRequestPhase]='Re-Submitted'")]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <If Condition="[OfficeNeighborScheduleRequestsReSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Submitted&quot;)]" sap:VirtualizedContainerService.HintSize="522,238" sap2010:WorkflowViewState.IdRef="If_1">
+                    <If.Then>
+                      <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xD;&#xA;SET officeNeighborScheduleResolutionPhase='Being Reconciled'&#xD;&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                        <ui:ExecuteQuery.Parameters>
+                          <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">
+                            <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="OfficeNeighborScheduleResolutionID" />
+                          </InArgument>
+                        </ui:ExecuteQuery.Parameters>
+                      </ui:ExecuteQuery>
+                    </If.Then>
+                  </If>
+                  <Assign sap:VirtualizedContainerService.HintSize="522,62" sap2010:WorkflowViewState.IdRef="Assign_5">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestsSubmitted]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestInformationDT.Select("[officeNeighborScheduleRequestPhase]='Submitted'")]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <If Condition="[OfficeNeighborScheduleRequestsSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Requested&quot;)]" sap:VirtualizedContainerService.HintSize="522,330" sap2010:WorkflowViewState.IdRef="If_2">
+                    <If.Then>
+                      <Sequence sap:VirtualizedContainerService.HintSize="376,179.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="334,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xD;&#xA;SET officeNeighborScheduleResolutionPhase='Submitted'&#xD;&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                          <ui:ExecuteQuery.Parameters>
+                            <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
+                          </ui:ExecuteQuery.Parameters>
+                        </ui:ExecuteQuery>
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </ui:ForEachRow.Body>
+          </ui:ForEachRow>
+        </Sequence>
+      </ui:DatabaseTransaction.Body>
+    </ui:DatabaseTransaction>
+  </Sequence>
+</Activity>
