@@ -1,6 +1,9 @@
 import React from "react";
+import { useCanvas } from "../utils/useCanvas";
 
 function OfficeFloorPlan(props) {
+    const canvasRef = useCanvas();
+
     return (
         <div>
             <map name="OfficeFloorPlanMap">
@@ -17,6 +20,7 @@ function OfficeFloorPlan(props) {
             <img useMap="#OfficeFloorPlanMap"
                 src="https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png"
                 alt="Office Floor Plan" />
+            <canvas id="OfficeFloorPlanCanvas" ref={canvasRef} />
         </div>
     );
 }
