@@ -27,6 +27,12 @@ function OfficeSchedule(props) {
                 .then(res => {
                     setDaysAllOfficeAllOnChosenDate(res.data);
                     console.log("All days of all office on chosen date set");
+                    let inOfficeLookUp = {};
+                    for (const day of res.data) {
+                        inOfficeLookUp[day.EmployeeSchedule.EmployeeId] = day.inOfficeRequirement;
+                    }
+                    props.setInOfficeLookUp(inOfficeLookUp);
+                    console.log("All employees/days in In Office Lookup set");
                 }).catch(err => console.log(err));
         }
     }
@@ -68,7 +74,8 @@ function OfficeSchedule(props) {
                         Schedule of All Office on {chosenDate.toDateString()}
                     </h5>
                     <div>
-                        {daysAllOfficeAllOnChosenDate.length} Employees in the Office on {chosenDate.toDateString()}
+                        {daysAllOfficeAllOnChosenDate.filter(day =>
+                            day.inOfficeRequirement.includes("In Office")).length} Employees in the Office on {chosenDate.toDateString()}
                     </div>
                     <div className="dayCardContainer">
                         {daysAllOfficeAllOnChosenDate.map(day => (
