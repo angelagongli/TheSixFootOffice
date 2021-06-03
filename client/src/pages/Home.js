@@ -10,6 +10,7 @@ import API from "../utils/API";
 function Home() {
     const [employeesAll, setEmployeesAll] = useState([]);
     const [employeeNameIDLookUp, setEmployeeNameIDLookUp] = useState({});
+    const [inOfficeLookUp, setInOfficeLookUp] = useState({});
     const [chosenSeat, setChosenSeat] = useState();
 
     useEffect(() => {
@@ -49,8 +50,8 @@ function Home() {
                         Welcome to the Six-Foot Office
                     </h2>
                     <OfficeSetting />
-                    <OfficeSchedule employeeNameIDLookUp={employeeNameIDLookUp} />
-                    <OfficeFloorPlan chooseSeat={chooseSeat} />
+                    <OfficeSchedule employeeNameIDLookUp={employeeNameIDLookUp} setInOfficeLookUp={setInOfficeLookUp} />
+                    <OfficeFloorPlan chooseSeat={chooseSeat} chosenSeat={chosenSeat} inOfficeLookUp={inOfficeLookUp} />
                     {chosenSeat ?
                     <div>
                         <Seat employee={employeesAll.find(employee =>
