@@ -21,6 +21,13 @@ function OfficeFloorPlan(props) {
                 src="https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png"
                 alt="Office Floor Plan" />
             <canvas id="OfficeFloorPlanCanvas" ref={canvasRef} />
+            {props.inOfficeEmployeesAll.length && Object.entries(props.inOfficeLookUp).length ?
+            props.inOfficeEmployeesAll.map(employee => (
+                <div key={employee.id}>
+                    {employee.name} sits in Seat Number {employee.seatNumber}: {props.inOfficeLookUp[employee.id]}
+                </div>
+            ))
+            : ""}
         </div>
     );
 }
