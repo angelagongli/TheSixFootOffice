@@ -51,7 +51,10 @@ function Home() {
                     </h2>
                     <OfficeSetting />
                     <OfficeSchedule employeeNameIDLookUp={employeeNameIDLookUp} setInOfficeLookUp={setInOfficeLookUp} />
-                    <OfficeFloorPlan chooseSeat={chooseSeat} chosenSeat={chosenSeat} inOfficeLookUp={inOfficeLookUp} />
+                    <OfficeFloorPlan chooseSeat={chooseSeat}
+                        chosenSeat={chosenSeat}
+                        inOfficeLookUp={inOfficeLookUp}
+                        inOfficeEmployeesAll={employeesAll.filter(employee => inOfficeLookUp[employee.id])} />
                     {chosenSeat ?
                     <div>
                         <Seat employee={employeesAll.find(employee =>
