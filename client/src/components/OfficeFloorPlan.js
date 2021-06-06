@@ -2,7 +2,7 @@ import React from "react";
 import { useCanvas } from "../utils/useCanvas";
 
 function OfficeFloorPlan(props) {
-    const canvasRef = useCanvas();
+    const [ canvasRef, canvasWidth, canvasHeight ] = useCanvas();
 
     return (
         <div>
@@ -20,7 +20,9 @@ function OfficeFloorPlan(props) {
             <img useMap="#OfficeFloorPlanMap"
                 src="https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png"
                 alt="Office Floor Plan" />
-            <canvas id="OfficeFloorPlanCanvas" ref={canvasRef} />
+            <canvas id="OfficeFloorPlanCanvas" ref={canvasRef}
+                width={canvasWidth}
+                height={canvasHeight} />
             {props.inOfficeEmployeesAll.length && Object.entries(props.inOfficeLookUp).length ?
             props.inOfficeEmployeesAll.map(employee => (
                 <div key={employee.id}>
