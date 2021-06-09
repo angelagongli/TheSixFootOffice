@@ -8,6 +8,14 @@ const OFFSET = 80;
 export const canvasWidth = window.innerWidth * .66;
 export const canvasHeight = window.innerHeight * .66;
 
+const today = new Date();
+let chosenDate = today;
+if (today.getDay() === 0) {
+    chosenDate = new Date(today.setDate(today.getDate() - 2));
+} else if (today.getDay() === 6) {
+    chosenDate = new Date(today.setDate(today.getDate() - 1));
+}
+
 export function drawSeat(context, seat) {
     switch (seat.inOfficeRequirement) {
         case "In Office AM":
@@ -53,15 +61,13 @@ export function useCanvas() {
             img.onload = function() {
                 context.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                 console.log("Drawing Office Floor Plan");
-                // if (Object.entries(inOfficeLookUp).length && Object.entries(employeeNameSeatLookUp).length) {
-                    for (const employeeID in inOfficeLookUp) {
-                        drawSeat(context, {
-                            employeeName: employeeNameSeatLookUp[employeeID].name,
-                            seatNumber: employeeNameSeatLookUp[employeeID].seatNumber,
-                            inOfficeRequirement: inOfficeLookUp[employeeID]
-                        });
-                    }
-                // }
+                for (const employeeID in inOfficeLookUp) {
+                    drawSeat(context, {
+                        employeeName: employeeNameSeatLookUp[employeeID].name,
+                        seatNumber: employeeNameSeatLookUp[employeeID].seatNumber,
+                        inOfficeRequirement: inOfficeLookUp[employeeID]
+                    });
+                }
             }
             img.src = "https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png";
         }
@@ -84,7 +90,7 @@ export function useCanvas() {
     }
 
     function loadDaysAllOfficeAllOnChosenDate() {
-        API.getDaysAllByDate("2021-6-7")
+        API.getDaysAllByDate(`${chosenDate.getFullYear()}-${chosenDate.getMonth() + 1}-${chosenDate.getDate()}`)
             .then(res => {
                 setDaysAllOfficeAllOnChosenDate(res.data);
                 console.log("All days of all office on chosen date set");
