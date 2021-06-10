@@ -8,6 +8,11 @@ const OFFSET = 80;
 export const canvasWidth = window.innerWidth * .66;
 export const canvasHeight = window.innerHeight * .66;
 
+const firstSeatUpperLeftX = 300;
+const firstSeatUpperLeftY = 50;
+const seatWidth = 150;
+const seatHeight = 120;
+
 const today = new Date();
 let chosenDate = today;
 if (today.getDay() === 0) {
@@ -30,11 +35,13 @@ export function drawSeat(context, seat) {
         default:
             context.fillStyle = 'rgba(0, 0, 0, 0.33)';
     }
-    console.log("Drawing Seat");
-    context.fillRect(300 + (seat.seatNumber - 1) * 150, 50, 150, 120);
+    console.log("Drawing Seat: " + JSON.stringify(seat));
+    context.fillRect(seat.upperLeftX, seat.upperLeftY, seatWidth, seatHeight);
+    context.strokeStyle = 'rgba(0, 0, 0, 1)';
+    context.strokeRect(seat.upperLeftX, seat.upperLeftY, seatWidth, seatHeight);
     context.fillStyle = 'rgba(0, 0, 0, 1)';
     context.font = '11px sans-serif';
-    context.fillText(`${seat.seatNumber}: ${seat.employeeName}`, 350 + (seat.seatNumber - 1) * 150, 110);
+    context.fillText(`${seat.seatNumber}: ${seat.employeeName}`, seat.upperLeftX + seatWidth/3, seat.upperLeftY + seatHeight/2);
 }
 
 export function useCanvas() {
@@ -52,7 +59,10 @@ export function useCanvas() {
         if (!Object.entries(employeeNameSeatLookUp).length) {
             loadEmployeesAll();
         }
-        if (Object.entries(inOfficeLookUp).length && Object.entries(employeeNameSeatLookUp).length) {
+        if (!seatCoordinates.length) {
+            computeSeatMapping();
+        }
+        if (Object.entries(inOfficeLookUp).length && Object.entries(employeeNameSeatLookUp).length && seatCoordinates.length) {
             const canvasObject = canvasRef.current;
             const context = canvasObject.getContext('2d');
             context.clearRect( 0, 0, canvasWidth, canvasHeight );
@@ -65,7 +75,9 @@ export function useCanvas() {
                     drawSeat(context, {
                         employeeName: employeeNameSeatLookUp[employeeID].name,
                         seatNumber: employeeNameSeatLookUp[employeeID].seatNumber,
-                        inOfficeRequirement: inOfficeLookUp[employeeID]
+                        inOfficeRequirement: inOfficeLookUp[employeeID],
+                        upperLeftX: seatCoordinates[employeeNameSeatLookUp[employeeID].seatNumber - 1].upperLeftX,
+                        upperLeftY: seatCoordinates[employeeNameSeatLookUp[employeeID].seatNumber - 1].upperLeftY
                     });
                 }
             }
@@ -101,6 +113,19 @@ export function useCanvas() {
                 setInOfficeLookUp(inOfficeLookUp);
                 console.log("All employees/days in In Office Lookup set");
             }).catch(err => console.log(err));
+    }
+
+    function computeSeatMapping() {
+        let seatCoordinates = [];
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                seatCoordinates.push({
+                    upperLeftX: firstSeatUpperLeftX + (j * seatWidth),
+                    upperLeftY: firstSeatUpperLeftY + (i * seatHeight),
+                })
+            }
+        }
+        setSeatCoordinates(seatCoordinates);
     }
 
     return [ canvasRef, canvasWidth, canvasHeight ];
