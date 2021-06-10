@@ -50,19 +50,18 @@ export function useCanvas() {
     const [daysAllOfficeAllOnChosenDate, setDaysAllOfficeAllOnChosenDate] = useState([]);
     const [employeesAll, setEmployeesAll] = useState([]);
     const [inOfficeLookUp, setInOfficeLookUp] = useState({});
-    const [employeeNameSeatLookUp, setEmployeeNameSeatLookUp] = useState({});
 
     useEffect(()=>{
         if (!Object.entries(inOfficeLookUp).length) {
             loadDaysAllOfficeAllOnChosenDate();
         }
-        if (!Object.entries(employeeNameSeatLookUp).length) {
+        if (!employeesAll.length) {
             loadEmployeesAll();
         }
         if (!seatCoordinates.length) {
             computeSeatMapping();
         }
-        if (Object.entries(inOfficeLookUp).length && Object.entries(employeeNameSeatLookUp).length && seatCoordinates.length) {
+        if (Object.entries(inOfficeLookUp).length && employeesAll.length && seatCoordinates.length) {
             const canvasObject = canvasRef.current;
             const context = canvasObject.getContext('2d');
             context.clearRect( 0, 0, canvasWidth, canvasHeight );
@@ -71,33 +70,24 @@ export function useCanvas() {
             img.onload = function() {
                 context.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                 console.log("Drawing Office Floor Plan");
-                for (const employeeID in inOfficeLookUp) {
+                for (const employee of employeesAll) {
                     drawSeat(context, {
-                        employeeName: employeeNameSeatLookUp[employeeID].name,
-                        seatNumber: employeeNameSeatLookUp[employeeID].seatNumber,
-                        inOfficeRequirement: inOfficeLookUp[employeeID],
-                        upperLeftX: seatCoordinates[employeeNameSeatLookUp[employeeID].seatNumber - 1].upperLeftX,
-                        upperLeftY: seatCoordinates[employeeNameSeatLookUp[employeeID].seatNumber - 1].upperLeftY
+                        employeeName: employee.name,
+                        seatNumber: employee.seatNumber,
+                        inOfficeRequirement: inOfficeLookUp[employee.id],
+                        upperLeftX: seatCoordinates[employee.seatNumber - 1].upperLeftX,
+                        upperLeftY: seatCoordinates[employee.seatNumber - 1].upperLeftY
                     });
                 }
             }
             img.src = "https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png";
         }
-    }, [inOfficeLookUp, employeeNameSeatLookUp]);
+    }, [inOfficeLookUp, employeesAll, seatCoordinates]);
 
     function loadEmployeesAll() {
         API.getEmployeesAll().then(res => {
             setEmployeesAll(res.data);
             console.log("All employees set");
-            let employeeNameSeatLookUp = {};
-            for (const employee of res.data) {
-                employeeNameSeatLookUp[employee.id] = {
-                    name: employee.name,
-                    seatNumber: employee.seatNumber
-                };
-            }
-            setEmployeeNameSeatLookUp(employeeNameSeatLookUp);
-            console.log("All employees in Employee Name/Seat Lookup set");
         }).catch(err => console.log(err));
     }
 
