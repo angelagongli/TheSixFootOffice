@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useCanvas } from "../utils/useCanvas";
 
 function OfficeFloorPlan(props) {
-    const [ canvasRef, canvasWidth, canvasHeight ] = useCanvas();
+    const [canvasRef, canvasWidth, canvasHeight] = useCanvas();
+    const [seatCoordinates, setSeatCoordinates] = useState([]);
+    const firstSeatUpperLeftX = 300;
+    const firstSeatUpperLeftY = 50;
+    const seatWidth = 150;
+    const seatHeight = 120;
+
+    useEffect(() => {
+        computeSeatMapping();
+    }, []);
+
+    const handleCanvasClick=(event)=>{
+        const x = event.nativeEvent.offsetX
+        const y = event.nativeEvent.offsetY;
+        console.log(`x: ${x}, y: ${y}`);
+    }
+
+    function computeSeatMapping() {
+        let seatCoordinates = [];
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                seatCoordinates.push({
+                    upperLeftX: firstSeatUpperLeftX + (i * seatWidth),
+                    upperLeftY: firstSeatUpperLeftY + (j * seatHeight),
+                })
+            }
+        }
+        setSeatCoordinates(seatCoordinates);
+    }
 
     return (
         <div>
@@ -22,7 +50,8 @@ function OfficeFloorPlan(props) {
                 alt="Office Floor Plan" />
             <canvas id="OfficeFloorPlanCanvas" ref={canvasRef}
                 width={canvasWidth}
-                height={canvasHeight} />
+                height={canvasHeight}
+                onClick={handleCanvasClick} />
             {props.inOfficeEmployeesAll.length && Object.entries(props.inOfficeLookUp).length ?
             props.inOfficeEmployeesAll.map(employee => (
                 <div key={employee.id}>
