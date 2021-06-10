@@ -17,6 +17,15 @@ function OfficeFloorPlan(props) {
         const x = event.nativeEvent.offsetX
         const y = event.nativeEvent.offsetY;
         console.log(`x: ${x}, y: ${y}`);
+        let chosenSeatNumber = seatCoordinates.findIndex(seat => {
+            let dx = x - seat.upperLeftX;
+            let dy = y - seat.upperLeftY;
+            return dx > 0 && dx < seatWidth && dy > 0 && dy < seatHeight;
+        }) + 1;
+        console.log(`Seat Number ${chosenSeatNumber}: ${JSON.stringify(seatCoordinates[chosenSeatNumber - 1])}`);
+        if (chosenSeatNumber && props.inOfficeEmployeesAll.find(employee => employee.seatNumber === chosenSeatNumber)) {
+            props.chooseSeat(chosenSeatNumber);
+        }
     }
 
     function computeSeatMapping() {
@@ -24,8 +33,8 @@ function OfficeFloorPlan(props) {
         for (let i = 0; i < 5; i++) {
             for (let j = 0; j < 5; j++) {
                 seatCoordinates.push({
-                    upperLeftX: firstSeatUpperLeftX + (i * seatWidth),
-                    upperLeftY: firstSeatUpperLeftY + (j * seatHeight),
+                    upperLeftX: firstSeatUpperLeftX + (j * seatWidth),
+                    upperLeftY: firstSeatUpperLeftY + (i * seatHeight),
                 })
             }
         }
