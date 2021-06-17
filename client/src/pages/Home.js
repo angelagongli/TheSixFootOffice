@@ -4,6 +4,7 @@ import { Navigation } from "../components/Navigation";
 import OfficeSetting from "../components/OfficeSetting";
 import OfficeSchedule from "../components/OfficeSchedule";
 import OfficeFloorPlan from "../components/OfficeFloorPlan";
+import OfficeRoster from "../components/OfficeRoster";
 import Seat from "../components/Seat";
 import API from "../utils/API";
 
@@ -54,13 +55,15 @@ function Home() {
                     <OfficeFloorPlan chooseSeat={chooseSeat}
                         chosenSeat={chosenSeat}
                         inOfficeLookUp={inOfficeLookUp}
-                        inOfficeEmployeesAll={employeesAll.filter(employee => inOfficeLookUp[employee.id])} />
+                        employeesAll={employeesAll} />
                     {chosenSeat ?
                     <div>
                         <Seat employee={employeesAll.find(employee =>
                             employee.seatNumber === chosenSeat)} />
                     </div>
                     : ""}
+                    <OfficeRoster inOfficeLookUp={inOfficeLookUp}
+                        inOfficeEmployeesAll={employeesAll.filter(employee => inOfficeLookUp[employee.id])} />
                 </div>
             </div>
         </div>
