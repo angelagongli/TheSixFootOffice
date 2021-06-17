@@ -146,3 +146,34 @@
     font-weight: bolder;
     background-color: lightyellow;
 }
+
+.officeNeighborScheduleRequestDayCard {
+    background-color: rgb(255, 0, 0, 0.1);
+    width: 200px;
+    height: 200px;
+    border: 1px solid red;
+}
+
+.officeFloorPlanCanvasContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.officeFloorPlanKey {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0px 10px;
+}
+
+.officeFloorPlanKeyEntry {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.officeFloorPlanKeyEntryColorBlock {
+    margin: 10px;
+}
