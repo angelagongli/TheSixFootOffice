@@ -8,6 +8,24 @@ function OfficeFloorPlan(props) {
     const firstSeatUpperLeftY = 50;
     const seatWidth = 150;
     const seatHeight = 120;
+    const officeFloorPlanKeyEntryArr = [
+        {
+            inOfficeRequirement: "In Office AM",
+            colorBlockFill: "rgba(200, 0, 0, 0.66)"
+        },
+        {
+            inOfficeRequirement: "In Office PM",
+            colorBlockFill: "rgba(0, 0, 200, 0.66)"
+        },
+        {
+            inOfficeRequirement: "In Office All Day",
+            colorBlockFill: "rgba(200, 0, 200, 0.66)"
+        },
+        {
+            inOfficeRequirement: "Home",
+            colorBlockFill: "rgba(0, 0, 0, 0.33)"
+        }
+    ];
 
     useEffect(() => {
         computeSeatMapping();
@@ -23,7 +41,7 @@ function OfficeFloorPlan(props) {
             return dx > 0 && dx < seatWidth && dy > 0 && dy < seatHeight;
         }) + 1;
         console.log(`Seat Number ${chosenSeatNumber}: ${JSON.stringify(seatCoordinates[chosenSeatNumber - 1])}`);
-        if (chosenSeatNumber && props.inOfficeEmployeesAll.find(employee => employee.seatNumber === chosenSeatNumber)) {
+        if (chosenSeatNumber && props.employeesAll.find(employee => employee.seatNumber === chosenSeatNumber)) {
             props.chooseSeat(chosenSeatNumber);
         }
     }
@@ -43,6 +61,9 @@ function OfficeFloorPlan(props) {
 
     return (
         <div>
+            <h5>
+                All Employees in the Office Today
+            </h5>
             <map name="OfficeFloorPlanMap">
                 <area shape="rect" coords="440, 55, 620, 190"
                     href="/#/seat/1" onClick={() => props.chooseSeat(1)}
@@ -57,17 +78,27 @@ function OfficeFloorPlan(props) {
             <img useMap="#OfficeFloorPlanMap"
                 src="https://raw.githubusercontent.com/angelagongli/TheSixFootOffice/main/Office_FloorPlan.png"
                 alt="Office Floor Plan" />
-            <canvas id="OfficeFloorPlanCanvas" ref={canvasRef}
-                width={canvasWidth}
-                height={canvasHeight}
-                onClick={handleCanvasClick} />
-            {props.inOfficeEmployeesAll.length && Object.entries(props.inOfficeLookUp).length ?
-            props.inOfficeEmployeesAll.map(employee => (
-                <div key={employee.id}>
-                    {employee.name} sits in Seat Number {employee.seatNumber}: {props.inOfficeLookUp[employee.id]}
+            <div className="officeFloorPlanCanvasContainer">
+                <canvas id="OfficeFloorPlanCanvas" ref={canvasRef}
+                    width={canvasWidth}
+                    height={canvasHeight}
+                    onClick={handleCanvasClick} />
+                <div className="officeFloorPlanKey">
+                    <h6>
+                        Office Floor Plan Key
+                    </h6>
+                    {officeFloorPlanKeyEntryArr.map((officeFloorPlanKeyEntry, index) => (
+                        <div key={index} className="officeFloorPlanKeyEntry">
+                            <svg className="officeFloorPlanKeyEntryColorBlock" width="20" height="20">
+                                <rect width="20" height="20" style={{fill: officeFloorPlanKeyEntry.colorBlockFill}} />
+                            </svg>
+                            <span>
+                                {officeFloorPlanKeyEntry.inOfficeRequirement}
+                            </span>
+                        </div>
+                    ))}
                 </div>
-            ))
-            : ""}
+            </div>
         </div>
     );
 }
