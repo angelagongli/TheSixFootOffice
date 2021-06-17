@@ -41,7 +41,7 @@ const navLinkGroups = [
       {
         name: 'Reopening',
         url: '/reopening',
-        key: 'Event',
+        key: 'Reopening',
         target: '_self',
       }
     ],
