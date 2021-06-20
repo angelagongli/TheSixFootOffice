@@ -115,6 +115,9 @@ export default {
     updateOfficeNeighborScheduleRequest: function(id, update) {
         return axios.put("/api/officeNeighborScheduleRequests/" + id, update);
     },
+    makeOfficeNeighborScheduleRequest: function(officeNeighborScheduleRequest) {
+        return axios.post("/api/officeNeighborScheduleRequests", officeNeighborScheduleRequest);
+    },
     getOfficeNeighborScheduleRequestDaysAll: function() {
         return axios.get("/api/officeNeighborScheduleRequestDays");
     },
@@ -123,5 +126,8 @@ export default {
     },
     updateOfficeNeighborScheduleRequestDay: function(id, update) {
         return axios.put("/api/officeNeighborScheduleRequestDays/" + id, update);
+    },
+    makeOfficeNeighborScheduleRequestDay: function(officeNeighborScheduleRequestDay) {
+        return axios.post("/api/officeNeighborScheduleRequestDays", officeNeighborScheduleRequestDay);
     }
 };
