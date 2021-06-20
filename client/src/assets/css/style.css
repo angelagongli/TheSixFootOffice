@@ -177,3 +177,16 @@
 .officeFloorPlanKeyEntryColorBlock {
     margin: 10px;
 }
+
+.officeNeighborScheduleRequestDayCardContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.inOfficeRequirementUpdateContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
