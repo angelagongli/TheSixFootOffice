@@ -73,9 +73,8 @@ function OfficeNeighborScheduleResolutionPage() {
                     <OfficeNeighborScheduleRequestWeek
                         employee={nearestOfficeNeighborASchedule.Employee}
                         employeeScheduleDays={nearestOfficeNeighborASchedule.Days}
-                        officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[0].OfficeNeighborScheduleRequestDays}
-                        officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[0].id}
-                        officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[0].officeNeighborScheduleRequestPhase}
+                        officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
+                            officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborA")}
                         setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
                     />
                     : ""}
@@ -83,9 +82,8 @@ function OfficeNeighborScheduleResolutionPage() {
                     <OfficeNeighborScheduleRequestWeek
                         employee={nearestOfficeNeighborBSchedule.Employee}
                         employeeScheduleDays={nearestOfficeNeighborBSchedule.Days}
-                        officeNeighborScheduleRequestDays={officeNeighborScheduleRequestsAll[1].OfficeNeighborScheduleRequestDays}
-                        officeNeighborScheduleRequestID={officeNeighborScheduleRequestsAll[1].id}
-                        officeNeighborScheduleRequestPhase={officeNeighborScheduleRequestsAll[1].officeNeighborScheduleRequestPhase}
+                        officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
+                            officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborB")}
                         setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
                     />
                     : ""}
