@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import OfficeNeighborScheduleRequestDayPopUp from "./OfficeNeighborScheduleRequestDayPopUp";
-import { Dropdown } from '@fluentui/react/lib/Dropdown';
+import OfficeNeighborScheduleRequestDayPopUp from "./OfficeNeighborScheduleRequestDayPopUp";
 import { useBoolean } from '@fluentui/react-hooks';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { Label } from '@fluentui/react/lib/Label';
@@ -8,7 +7,7 @@ import { Label } from '@fluentui/react/lib/Label';
 function OfficeNeighborScheduleRequestDayCard(props) {
     const day = props.officeNeighborScheduleRequestDay;
     const [chosenInOfficeRequirementRequestedForDay, setChosenInOfficeRequirementRequestedForDay] = useState(day.inOfficeRequirementRequested);
-    // const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
     const inOfficeRequirementRequestedChoice = [
         {
             key: "In Office All Day",
@@ -56,30 +55,30 @@ function OfficeNeighborScheduleRequestDayCard(props) {
                 <Label>
                     From:
                 </Label>
-                <div className="inOfficeRequirementIcon">
-                    <i className={`ms-Icon ms-Icon--${props.inOfficeRequirementRequestedIcon}`} aria-hidden="true"></i>
+                <div className="inOfficeRequirementUpdateContainer">
+                    <div className="inOfficeRequirementIcon">
+                        <i className={`ms-Icon ms-Icon--${props.inOfficeRequirementRequestedIcon}`} aria-hidden="true"></i>
+                    </div>
+                    <IconButton
+                        onClick={toggleHideDialog}
+                        iconProps={{ iconName: "Edit" }} />
                 </div>
             </div>
             <div className="officeNeighborScheduleRequestDayCardContainer">
                 <Label>
                     To:
                 </Label>
-                <div className="inOfficeRequirementUpdateContainer">
-                    <IconButton
-                        // onClick={toggleHideDialog}
-                        iconProps={{ iconName: "Edit" }} />
-                    <div className={`inOfficeRequirement ${day.inOfficeRequirementRequested.split(" ").join("")}`}>
-                        {chosenInOfficeRequirementRequestedForDay}
-                    </div>
+                <div className={`inOfficeRequirement ${chosenInOfficeRequirementRequestedForDay.split(" ").join("")}`}>
+                    {chosenInOfficeRequirementRequestedForDay}
                 </div>
             </div>
-            {/* <OfficeNeighborScheduleRequestDayPopUp /> */}
-            <Dropdown
-                label="Request Your In Office Requirement for the Day"
-                selectedKey={chosenInOfficeRequirementRequestedForDay ? chosenInOfficeRequirementRequestedForDay : undefined}
-                onChange={chooseInOfficeRequirementRequestedForDay}
-                placeholder={day.inOfficeRequirementRequested}
-                options={computeInOfficeRequirementRequestedChoice(day.inOfficeRequirementRequested)} />
+            <OfficeNeighborScheduleRequestDayPopUp
+                day={day}
+                chooseInOfficeRequirementRequestedForDay={chooseInOfficeRequirementRequestedForDay}
+                chosenInOfficeRequirementRequestedForDay={chosenInOfficeRequirementRequestedForDay}
+                hideDialog={hideDialog}
+                toggleHideDialog={toggleHideDialog}
+                inOfficeRequirementRequestedChoice={computeInOfficeRequirementRequestedChoice(day.inOfficeRequirementRequested)} />
         </div>
     );
 }
