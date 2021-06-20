@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+// import OfficeNeighborScheduleRequestDayPopUp from "./OfficeNeighborScheduleRequestDayPopUp";
 import { Dropdown } from '@fluentui/react/lib/Dropdown';
+import { useBoolean } from '@fluentui/react-hooks';
+import { IconButton } from '@fluentui/react/lib/Button';
+import { Label } from '@fluentui/react/lib/Label';
 
 function OfficeNeighborScheduleRequestDayCard(props) {
-    const [ chosenInOfficeRequirementRequestedForDay, setChosenInOfficeRequirementRequestedForDay] = useState(props.inOfficeRequirementRequested);
+    const day = props.officeNeighborScheduleRequestDay;
+    const [chosenInOfficeRequirementRequestedForDay, setChosenInOfficeRequirementRequestedForDay] = useState(day.inOfficeRequirementRequested);
+    // const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
     const inOfficeRequirementRequestedChoice = [
         {
             key: "In Office All Day",
@@ -23,12 +29,12 @@ function OfficeNeighborScheduleRequestDayCard(props) {
     ];
 
     useEffect(() => {
-        setChosenInOfficeRequirementRequestedForDay(props.inOfficeRequirementRequested);
-    }, [props.inOfficeRequirementRequested]);
+        setChosenInOfficeRequirementRequestedForDay(day.inOfficeRequirementRequested);
+    }, [day.inOfficeRequirementRequested]);
 
     function chooseInOfficeRequirementRequestedForDay(event, inOfficeRequirementRequested) {
         setChosenInOfficeRequirementRequestedForDay(inOfficeRequirementRequested.key);
-        props.updateInOfficeRequirementRequestedForDay(props.officeNeighborScheduleRequestDayID, inOfficeRequirementRequested.key);
+        props.updateInOfficeRequirementRequestedForDay(props.officeNeighborScheduleRequestDay.date, inOfficeRequirementRequested.key);
     }
 
     function computeInOfficeRequirementRequestedChoice(inOfficeRequirementRequested) {
@@ -46,18 +52,34 @@ function OfficeNeighborScheduleRequestDayCard(props) {
             <h5>
                 {props.heading}
             </h5>
-            <div className="inOfficeRequirementIcon">
-                <i className={`ms-Icon ms-Icon--${props.inOfficeRequirementRequestedIcon}`} aria-hidden="true"></i>
+            <div className="officeNeighborScheduleRequestDayCardContainer">
+                <Label>
+                    From:
+                </Label>
+                <div className="inOfficeRequirementIcon">
+                    <i className={`ms-Icon ms-Icon--${props.inOfficeRequirementRequestedIcon}`} aria-hidden="true"></i>
+                </div>
             </div>
-            <div className={`inOfficeRequirement ${props.inOfficeRequirementRequested.split(" ").join("")}`}>
-                Present In Office Requirement Requested: {props.inOfficeRequirementRequested}
+            <div className="officeNeighborScheduleRequestDayCardContainer">
+                <Label>
+                    To:
+                </Label>
+                <div className="inOfficeRequirementUpdateContainer">
+                    <IconButton
+                        // onClick={toggleHideDialog}
+                        iconProps={{ iconName: "Edit" }} />
+                    <div className={`inOfficeRequirement ${day.inOfficeRequirementRequested.split(" ").join("")}`}>
+                        {chosenInOfficeRequirementRequestedForDay}
+                    </div>
+                </div>
             </div>
+            {/* <OfficeNeighborScheduleRequestDayPopUp /> */}
             <Dropdown
                 label="Request Your In Office Requirement for the Day"
                 selectedKey={chosenInOfficeRequirementRequestedForDay ? chosenInOfficeRequirementRequestedForDay : undefined}
                 onChange={chooseInOfficeRequirementRequestedForDay}
-                placeholder={props.inOfficeRequirementRequested}
-                options={computeInOfficeRequirementRequestedChoice(props.inOfficeRequirementRequested)} />
+                placeholder={day.inOfficeRequirementRequested}
+                options={computeInOfficeRequirementRequestedChoice(day.inOfficeRequirementRequested)} />
         </div>
     );
 }
