@@ -5,7 +5,8 @@ router.route("/officeNeighborScheduleRequest/:id")
     .get(officeNeighborScheduleRequestDayController.findAllByOfficeNeighborScheduleRequest);
 
 router.route("/")
-    .get(officeNeighborScheduleRequestDayController.findAll);
+    .get(officeNeighborScheduleRequestDayController.findAll)
+    .post(officeNeighborScheduleRequestDayController.create);
 
 router.route("/:id")
     .put(officeNeighborScheduleRequestDayController.update);
