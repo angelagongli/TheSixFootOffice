@@ -32,5 +32,13 @@ module.exports = {
         }).catch(err => {
             res.status(422).json(err);
         });
+    },
+    create: function(req, res) {
+        db.OfficeNeighborScheduleRequestDay.create(req.body)
+        .then(dbOfficeNeighborScheduleRequestDay => {
+            res.json(dbOfficeNeighborScheduleRequestDay);
+        }).catch(err => {
+            res.status(422).json(err);
+        });
     }
 }
