@@ -6,6 +6,7 @@ import API from "../utils/API";
 
 function OfficeNeighborScheduleRequestWeek(props) {
     const [inOfficeRequirementRequestedForDayAll, setChosenInOfficeRequirementRequestedForDayAll] = useState({});
+    const req = props.officeNeighborScheduleRequest;
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const inOfficeRequirementIconLookUp = {
         "In Office All Day": "BufferTimeBoth",
@@ -26,27 +27,36 @@ function OfficeNeighborScheduleRequestWeek(props) {
         return `${month}/${date}/${year}`;
     }
 
-    function updateInOfficeRequirementRequestedForDay(officeNeighborScheduleRequestDayID, updatedInOfficeRequirementRequested) {
-        let inOfficeRequirementRequestedObject = inOfficeRequirementRequestedForDayAll;
-        inOfficeRequirementRequestedObject[officeNeighborScheduleRequestDayID] = updatedInOfficeRequirementRequested;
-        setChosenInOfficeRequirementRequestedForDayAll(inOfficeRequirementRequestedObject);
+    function updateInOfficeRequirementRequestedForDay(date, updatedInOfficeRequirementRequested) {
+        let presentInOfficeRequirementRequested = req.OfficeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
+            officeNeighborScheduleRequestDay.date === date).inOfficeRequirement;
+        if (presentInOfficeRequirementRequested !== updatedInOfficeRequirementRequested) {
+            let inOfficeRequirementRequestedObject = inOfficeRequirementRequestedForDayAll;
+            inOfficeRequirementRequestedObject[date] = updatedInOfficeRequirementRequested;
+            setChosenInOfficeRequirementRequestedForDayAll(inOfficeRequirementRequestedObject);
+        }
     }
 
     function updateOfficeNeighborScheduleRequestForWeek() {
         if (Object.entries(inOfficeRequirementRequestedForDayAll).length) {
-            for (const inOfficeRequirementRequestedDayID in inOfficeRequirementRequestedForDayAll) {
-                API.updateOfficeNeighborScheduleRequestDay(inOfficeRequirementRequestedDayID, {
-                    inOfficeRequirementRequested: inOfficeRequirementRequestedForDayAll[inOfficeRequirementRequestedDayID]
-                }).then(res => {
-                    console.log("Newly Updated Office Neighbor Schedule Request Day: " + JSON.stringify(res));
-                }).catch(err => console.log(err));
-            }
-            const officeNeighborScheduleRequestNewPhase = props.officeNeighborScheduleRequestPhase === "Generated" ?
+            const officeNeighborScheduleRequestNewPhase = req.officeNeighborScheduleRequestPhase === "Generated" ?
                 "Submitted" : "Re-Submitted";
-            API.updateOfficeNeighborScheduleRequest(props.officeNeighborScheduleRequestID, {
-                officeNeighborScheduleRequestPhase: officeNeighborScheduleRequestNewPhase
+            API.makeOfficeNeighborScheduleRequest({
+                officeNeighborScheduleRequestPhase: officeNeighborScheduleRequestNewPhase,
+                nearestOfficeNeighborRole: req.nearestOfficeNeighborRole,
+                OfficeNeighborScheduleResolutionId: req.OfficeNeighborScheduleResolutionId
             }).then(res => {
-                console.log("Newly Updated Office Neighbor Schedule Request: " + JSON.stringify(res));
+                console.log("Newly Created Office Neighbor Schedule Request: " + JSON.stringify(res));
+                for (const day of req.OfficeNeighborScheduleRequestDays) {
+                    API.makeOfficeNeighborScheduleRequestDay({
+                        date: day.date,
+                        inOfficeRequirementRequested: inOfficeRequirementRequestedForDayAll[day.date] ?
+                            inOfficeRequirementRequestedForDayAll[day.date] : day.inOfficeRequirementRequested,
+                        OfficeNeighborScheduleRequestId: res.data.id
+                    }).then(res => {
+                        console.log("Newly Created Office Neighbor Schedule Request Day: " + JSON.stringify(res));
+                    }).catch(err => console.log(err));
+                }
                 props.setOfficeNeighborScheduleRequestUpdated(true);
             }).catch(err => console.log(err));
         }
@@ -55,22 +65,20 @@ function OfficeNeighborScheduleRequestWeek(props) {
     return (
         <div className="container">
             <h5>
-                {props.employee.name}: {props.officeNeighborScheduleRequestPhase === "Generated" ?
-                "Not Yet Submitted" : props.officeNeighborScheduleRequestPhase}
+                {props.employee.name}: {req.officeNeighborScheduleRequestPhase === "Generated" ?
+                "Not Yet Submitted" : req.officeNeighborScheduleRequestPhase}
             </h5>
             <div className="dayCardContainer">
                 {props.employeeScheduleDays.map(day => (
-                    props.officeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay => officeNeighborScheduleRequestDay.date === day.date) ?
+                    req.OfficeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay => officeNeighborScheduleRequestDay.date === day.date) ?
                     <OfficeNeighborScheduleRequestDayCard
                         key={day.id}
                         heading={`${computeDayOfWeek(day.date)},
                             ${formatDate(day.date)}`}
-                        officeNeighborScheduleRequestDayID={props.officeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
-                            officeNeighborScheduleRequestDay.date === day.date).id}
-                        inOfficeRequirementRequestedIcon={inOfficeRequirementIconLookUp[props.officeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
+                        officeNeighborScheduleRequestDay={req.OfficeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
+                            officeNeighborScheduleRequestDay.date === day.date)}
+                        inOfficeRequirementRequestedIcon={inOfficeRequirementIconLookUp[req.OfficeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
                             officeNeighborScheduleRequestDay.date === day.date).inOfficeRequirementRequested]}
-                        inOfficeRequirementRequested={props.officeNeighborScheduleRequestDays.find(officeNeighborScheduleRequestDay =>
-                            officeNeighborScheduleRequestDay.date === day.date).inOfficeRequirementRequested}
                         updateInOfficeRequirementRequestedForDay={updateInOfficeRequirementRequestedForDay} />
                     : <DayCard
                         key={day.id}
