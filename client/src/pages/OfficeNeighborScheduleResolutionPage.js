@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { Navigation } from "../components/Navigation";
 import OfficeNeighborScheduleRequestWeek from "../components/OfficeNeighborScheduleRequestWeek";
+import EmployeeSchedule from "../components/EmployeeSchedule";
 import API from "../utils/API";
 
 function OfficeNeighborScheduleResolutionPage() {
@@ -69,24 +70,41 @@ function OfficeNeighborScheduleResolutionPage() {
                     </h5>
                     : ""}
                     {officeNeighborScheduleRequestUpdated ? "Your In Office Requirement Request for the Week Has Been Submitted!" : ""}
-                    {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborASchedule ?
-                    <OfficeNeighborScheduleRequestWeek
-                        employee={nearestOfficeNeighborASchedule.Employee}
-                        employeeScheduleDays={nearestOfficeNeighborASchedule.Days}
-                        officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
-                            officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborA")}
-                        setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
-                    />
-                    : ""}
-                    {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborBSchedule ?
-                    <OfficeNeighborScheduleRequestWeek
-                        employee={nearestOfficeNeighborBSchedule.Employee}
-                        employeeScheduleDays={nearestOfficeNeighborBSchedule.Days}
-                        officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
-                            officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborB")}
-                        setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
-                    />
-                    : ""}
+                    {officeNeighborScheduleResolution.officeNeighborScheduleResolutionPhase === "Completed/Resolved" ?
+                    <div>
+                        <div className="container">
+                            <h5>
+                                {nearestOfficeNeighborASchedule.Employee.name}: Resolved
+                            </h5>
+                            <EmployeeSchedule days={nearestOfficeNeighborASchedule.Days} />
+                        </div>
+                        <div className="container">
+                            <h5>
+                                {nearestOfficeNeighborBSchedule.Employee.name}: Resolved
+                            </h5>
+                            <EmployeeSchedule days={nearestOfficeNeighborBSchedule.Days} />
+                        </div>
+                    </div>
+                    : <div>
+                        {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborASchedule ?
+                        <OfficeNeighborScheduleRequestWeek
+                            employee={nearestOfficeNeighborASchedule.Employee}
+                            employeeScheduleDays={nearestOfficeNeighborASchedule.Days}
+                            officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
+                                officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborA")}
+                            setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
+                        />
+                        : ""}
+                        {officeNeighborScheduleRequestsAll.length && nearestOfficeNeighborBSchedule ?
+                        <OfficeNeighborScheduleRequestWeek
+                            employee={nearestOfficeNeighborBSchedule.Employee}
+                            employeeScheduleDays={nearestOfficeNeighborBSchedule.Days}
+                            officeNeighborScheduleRequest={officeNeighborScheduleRequestsAll.find(officeNeighborScheduleRequest =>
+                                officeNeighborScheduleRequest.nearestOfficeNeighborRole === "NearestOfficeNeighborB")}
+                            setOfficeNeighborScheduleRequestUpdated={setOfficeNeighborScheduleRequestUpdated}
+                        />
+                        : ""}
+                    </div>}
                 </div>
             </div>
         </div>
