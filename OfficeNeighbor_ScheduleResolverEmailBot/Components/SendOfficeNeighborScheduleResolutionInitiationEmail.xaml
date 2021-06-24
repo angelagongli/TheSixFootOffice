@@ -10,7 +10,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1340.66666666667,827.333333333333</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1172.66666666667,827.333333333333</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>SendEmail_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="42">
@@ -79,7 +79,7 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:ReadTextFile Content="[HTMLEmailTemplate]" DisplayName="Read Text File" FileName="Components\HTML\OfficeNeighborScheduleResolver_HTMLEmailTemplate.html" sap:VirtualizedContainerService.HintSize="384,80.6666666666667" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
+    <ui:ReadTextFile Content="[HTMLEmailTemplate]" DisplayName="Read Text File" FileName="Components\HTML\OfficeNeighborScheduleResolver_HTMLInitiationEmailTemplate.html" sap:VirtualizedContainerService.HintSize="384,80.6666666666667" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
     <ui:SendOutlookMail Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Account="angelagongli@gmail.com" Body="[String.Format(HTMLEmailTemplate, in_WeekOf, in_EmployeeName, in_EmployeeNearestNeighborName, in_OfficeNeighborScheduleResolutionURL, &quot;help@doe.com&quot;)]" DisplayName="Send Outlook Mail Message" sap:VirtualizedContainerService.HintSize="384,149.333333333333" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" Subject="[&quot;Office Neighbor Schedule Resolver: Week of &quot; + in_WeekOf]" To="[in_EmployeeEmailAddress]">
       <ui:SendOutlookMail.Files>
         <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
