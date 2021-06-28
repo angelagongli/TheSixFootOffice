@@ -6,7 +6,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1174.66666666667,1035.33333333333</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1170.66666666667,913.333333333333</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="28">
@@ -41,7 +41,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="24">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="48">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -66,9 +66,10 @@
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="632,930.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="632,848.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="EmployeeInformationDT" />
     </Sequence.Variables>
@@ -91,107 +92,16 @@
         </ui:GetRobotAsset>
       </If.Then>
     </If>
-    <Switch x:TypeArguments="x:Int32" DisplayName="Switch" Expression="[DateTime.Today.DayOfWeek]" sap:VirtualizedContainerService.HintSize="590,350" sap2010:WorkflowViewState.IdRef="Switch`1_1">
-      <Switch.Default>
+    <If Condition="[DateTime.Today.DayOfWeek &gt;= 1 And DateTime.Today.DayOfWeek &lt;= 5]" sap:VirtualizedContainerService.HintSize="590,268" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
         <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke StartDailyPollingOfOfficeNeighborScheduleRequestTable workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Components\StartDailyPollingOfOfficeNeighborScheduleRequestTable.xaml">
           <ui:InvokeWorkflowFile.Arguments>
-            <InArgument x:TypeArguments="sd:DataTable" x:Key="in_EmployeeInformationDT">
-              <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="EmployeeInformationDT" />
-            </InArgument>
-            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
-              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
-            </InArgument>
-            <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
-              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
-            </InArgument>
+            <InArgument x:TypeArguments="sd:DataTable" x:Key="in_EmployeeInformationDT">[EmployeeInformationDT]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
           </ui:InvokeWorkflowFile.Arguments>
         </ui:InvokeWorkflowFile>
-      </Switch.Default>
-      <ui:ForEachRow CurrentIndex="{x:Null}" x:Key="1" DataTable="[EmployeeInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="472,358.666666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
-        <ui:ForEachRow.Body>
-          <ActivityAction x:TypeArguments="sd:DataRow">
-            <ActivityAction.Argument>
-              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
-            </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="421.333333333333,206" sap2010:WorkflowViewState.IdRef="Sequence_2">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
-                <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">
-                    <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="row" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
-                    <Literal x:TypeArguments="x:String">InitiateOfficeNeighborScheduleResolution</Literal>
-                  </InArgument>
-                </ui:InvokeWorkflowFile.Arguments>
-              </ui:InvokeWorkflowFile>
-            </Sequence>
-          </ActivityAction>
-        </ui:ForEachRow.Body>
-      </ui:ForEachRow>
-      <ui:ForEachRow CurrentIndex="{x:Null}" x:Key="4" DataTable="[EmployeeInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="472,358.666666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
-        <ui:ForEachRow.Body>
-          <ActivityAction x:TypeArguments="sd:DataRow">
-            <ActivityAction.Argument>
-              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
-            </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="421.333333333333,206" sap2010:WorkflowViewState.IdRef="Sequence_4">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
-                <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">
-                    <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="row" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
-                    <Literal x:TypeArguments="x:String">OfficeNeighborScheduleResolutionReminder</Literal>
-                  </InArgument>
-                </ui:InvokeWorkflowFile.Arguments>
-              </ui:InvokeWorkflowFile>
-            </Sequence>
-          </ActivityAction>
-        </ui:ForEachRow.Body>
-      </ui:ForEachRow>
-      <ui:ForEachRow CurrentIndex="{x:Null}" x:Key="5" DataTable="[EmployeeInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="472,358.666666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
-        <ui:ForEachRow.Body>
-          <ActivityAction x:TypeArguments="sd:DataRow">
-            <ActivityAction.Argument>
-              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
-            </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="421.333333333333,206" sap2010:WorkflowViewState.IdRef="Sequence_3">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke CompleteOfficeNeighborScheduleResolution workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Components\CompleteOfficeNeighborScheduleResolution.xaml">
-                <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[row]</InArgument>
-                </ui:InvokeWorkflowFile.Arguments>
-              </ui:InvokeWorkflowFile>
-            </Sequence>
-          </ActivityAction>
-        </ui:ForEachRow.Body>
-      </ui:ForEachRow>
-    </Switch>
+      </If.Then>
+    </If>
   </Sequence>
 </Activity>
