@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1170.66666666667,3724</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>956,4965.33333333333</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>StartDailyPollingOfOfficeNeighborScheduleRequestTable_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="30">
@@ -44,7 +44,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="38">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -73,7 +73,7 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="StartDailyPollingOfOfficeNeighborScheduleRequestTable" sap:VirtualizedContainerService.HintSize="778,3659.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="StartDailyPollingOfOfficeNeighborScheduleRequestTable" sap:VirtualizedContainerService.HintSize="966,4860.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:DatabaseConnection" Name="DB_Connection" />
       <Variable x:TypeArguments="sd:DataTable" Name="OfficeNeighborScheduleResolutionInformationDT" />
@@ -87,13 +87,14 @@
       <Variable x:TypeArguments="x:Int32" Name="NearestOfficeNeighborB_ID" />
       <Variable x:TypeArguments="sd:DataRow" Name="NearestOfficeNeighborA_InformationDataRow" />
       <Variable x:TypeArguments="sd:DataRow" Name="NearestOfficeNeighborB_InformationDataRow" />
+      <Variable x:TypeArguments="x:String" Name="OfficeNeighborScheduleResolutionDayHTML" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="736,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="924,62" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="s:DateTime">[WeekOf]</OutArgument>
       </Assign.To>
@@ -101,32 +102,32 @@
         <InArgument x:TypeArguments="s:DateTime">[DateTime.Today.AddDays(1 - DateTime.Today.DayOfWeek)]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="736,2828.66666666667" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
+    <ui:DatabaseTransaction ContinueOnError="{x:Null}" DatabaseConnection="[DB_Connection]" DisplayName="Start Transaction" sap:VirtualizedContainerService.HintSize="924,4030" sap2010:WorkflowViewState.IdRef="DatabaseTransaction_1" ProviderName="MySql.Data.MySqlClient" UseTransaction="True" ConnectionString="Host=localhost;Port=3306;Database=Office_DB;Username=root;Password=;">
       <ui:DatabaseTransaction.Body>
-        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="702,2720" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="890,3921.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="660,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleResolutions&#xA;WHERE weekOf=@WeekOf;">
+          <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="848,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleResolutions&#xA;WHERE weekOf=@WeekOf;">
             <ui:ExecuteQuery.Parameters>
               <InArgument x:TypeArguments="s:DateTime" x:Key="WeekOf">[WeekOf]</InArgument>
             </ui:ExecuteQuery.Parameters>
           </ui:ExecuteQuery>
-          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="660,2500.66666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[OfficeNeighborScheduleResolutionInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="848,3702" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
             <ui:ForEachRow.Body>
               <ActivityAction x:TypeArguments="sd:DataRow">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="609.333333333333,2351.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="797.333333333333,3552.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <Assign sap:VirtualizedContainerService.HintSize="567.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+                  <Assign sap:VirtualizedContainerService.HintSize="755.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_2">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:Int32">[OfficeNeighborScheduleResolutionID]</OutArgument>
                     </Assign.To>
@@ -134,7 +135,7 @@
                       <InArgument x:TypeArguments="x:Int32">[CInt(row("id"))]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <Assign sap:VirtualizedContainerService.HintSize="567.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_3">
+                  <Assign sap:VirtualizedContainerService.HintSize="755.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_3">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:String">[OfficeNeighborScheduleResolutionPhase]</OutArgument>
                     </Assign.To>
@@ -142,12 +143,12 @@
                       <InArgument x:TypeArguments="x:String">[row("officeNeighborScheduleResolutionPhase").ToString]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleRequestInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="567.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleRequests&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                  <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[OfficeNeighborScheduleRequestInformationDT]" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="755.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="SELECT * FROM Office_DB.OfficeNeighborScheduleRequests&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
                     <ui:ExecuteQuery.Parameters>
                       <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
                     </ui:ExecuteQuery.Parameters>
                   </ui:ExecuteQuery>
-                  <Assign sap:VirtualizedContainerService.HintSize="567.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_4">
+                  <Assign sap:VirtualizedContainerService.HintSize="755.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_4">
                     <Assign.To>
                       <OutArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestsReSubmitted]</OutArgument>
                     </Assign.To>
@@ -155,77 +156,117 @@
                       <InArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestInformationDT.Select("[officeNeighborScheduleRequestPhase]='Re-Submitted'")]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <If Condition="[OfficeNeighborScheduleRequestsReSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Submitted&quot;)]" sap:VirtualizedContainerService.HintSize="567.333333333333,1200" sap2010:WorkflowViewState.IdRef="If_1">
+                  <If Condition="[OfficeNeighborScheduleRequestsReSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Submitted&quot;)]" sap:VirtualizedContainerService.HintSize="755.333333333333,1442.66666666667" sap2010:WorkflowViewState.IdRef="If_1">
                     <If.Then>
-                      <Sequence sap:VirtualizedContainerService.HintSize="421.333333333333,1049.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                      <Sequence sap:VirtualizedContainerService.HintSize="609.333333333333,1292" sap2010:WorkflowViewState.IdRef="Sequence_5">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="379.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xA;SET officeNeighborScheduleResolutionPhase='Being Reconciled'&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                        <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="567.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xA;SET officeNeighborScheduleResolutionPhase='Being Reconciled'&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
                           <ui:ExecuteQuery.Parameters>
                             <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
                           </ui:ExecuteQuery.Parameters>
                         </ui:ExecuteQuery>
-                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ReconcileOfficeNeighborScheduleResolution workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Components\ReconcileOfficeNeighborScheduleResolution.xaml">
+                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ReconcileOfficeNeighborScheduleResolution workflow" sap:VirtualizedContainerService.HintSize="567.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Components\ReconcileOfficeNeighborScheduleResolution.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:Int32" x:Key="in_OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionPhase">Being Reconciled</InArgument>
+                            <InArgument x:TypeArguments="x:Int32" x:Key="in_OfficeNeighborScheduleResolutionID">
+                              <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="OfficeNeighborScheduleResolutionID" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionPhase">
+                              <Literal x:TypeArguments="x:String">Being Reconciled</Literal>
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_OfficeNeighborScheduleResolutionDayHTML">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="OfficeNeighborScheduleResolutionDayHTML" />
+                            </OutArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                         </ui:InvokeWorkflowFile>
-                        <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_7">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborA_ID]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborAId"))]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-                        <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_8">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborB_ID]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborBId"))]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-                        <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_9">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborA_InformationDataRow]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborA_ID.ToString)(0)]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-                        <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_10">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborB_InformationDataRow]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborB_ID.ToString)(0)]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
-                          <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[NearestOfficeNeighborA_InformationDataRow]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">ReconcileOfficeNeighborScheduleResolution</InArgument>
-                          </ui:InvokeWorkflowFile.Arguments>
-                        </ui:InvokeWorkflowFile>
-                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
-                          <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[NearestOfficeNeighborB_InformationDataRow]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">ReconcileOfficeNeighborScheduleResolution</InArgument>
-                          </ui:InvokeWorkflowFile.Arguments>
-                        </ui:InvokeWorkflowFile>
+                        <If Condition="[OfficeNeighborScheduleResolutionDayHTML.Equals(&quot;&quot;)]" sap:VirtualizedContainerService.HintSize="567.333333333333,918.666666666667" sap2010:WorkflowViewState.IdRef="If_3">
+                          <If.Else>
+                            <Sequence sap:VirtualizedContainerService.HintSize="421.333333333333,768" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborA_ID]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborAId"))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborB_ID]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborBId"))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborA_InformationDataRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborA_ID.ToString)(0)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborB_InformationDataRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborB_ID.ToString)(0)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
+                                <ui:InvokeWorkflowFile.Arguments>
+                                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">
+                                    <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="NearestOfficeNeighborA_InformationDataRow" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
+                                    <Literal x:TypeArguments="x:String">ReconcileOfficeNeighborScheduleResolution</Literal>
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="OfficeNeighborScheduleResolutionDayHTML" />
+                                  </InArgument>
+                                </ui:InvokeWorkflowFile.Arguments>
+                              </ui:InvokeWorkflowFile>
+                              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
+                                <ui:InvokeWorkflowFile.Arguments>
+                                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">
+                                    <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="NearestOfficeNeighborB_InformationDataRow" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
+                                    <Literal x:TypeArguments="x:String">ReconcileOfficeNeighborScheduleResolution</Literal>
+                                  </InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML">
+                                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="OfficeNeighborScheduleResolutionDayHTML" />
+                                  </InArgument>
+                                </ui:InvokeWorkflowFile.Arguments>
+                              </ui:InvokeWorkflowFile>
+                            </Sequence>
+                          </If.Else>
+                        </If>
                       </Sequence>
                     </If.Then>
                   </If>
-                  <Assign sap:VirtualizedContainerService.HintSize="567.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_5">
+                  <Assign sap:VirtualizedContainerService.HintSize="755.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_5">
                     <Assign.To>
                       <OutArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestsSubmitted]</OutArgument>
                     </Assign.To>
@@ -233,25 +274,93 @@
                       <InArgument x:TypeArguments="sd:DataRow[]">[OfficeNeighborScheduleRequestInformationDT.Select("[officeNeighborScheduleRequestPhase]='Submitted'")]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <If Condition="[OfficeNeighborScheduleRequestsSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Requested&quot;)]" sap:VirtualizedContainerService.HintSize="567.333333333333,484" sap2010:WorkflowViewState.IdRef="If_2">
+                  <If Condition="[OfficeNeighborScheduleRequestsSubmitted.Length &gt; 1 And OfficeNeighborScheduleResolutionPhase.Equals(&quot;Requested&quot;)]" sap:VirtualizedContainerService.HintSize="755.333333333333,1442.66666666667" sap2010:WorkflowViewState.IdRef="If_2">
                     <If.Then>
-                      <Sequence sap:VirtualizedContainerService.HintSize="421.333333333333,333.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <Sequence sap:VirtualizedContainerService.HintSize="609.333333333333,1292" sap2010:WorkflowViewState.IdRef="Sequence_4">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="379.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xA;SET officeNeighborScheduleResolutionPhase='Submitted'&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
+                        <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Query" ExistingDbConnection="[DB_Connection]" sap:VirtualizedContainerService.HintSize="567.333333333333,87.3333333333333" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="UPDATE Office_DB.OfficeNeighborScheduleResolutions&#xA;SET officeNeighborScheduleResolutionPhase='Submitted'&#xA;WHERE OfficeNeighborScheduleResolutionId=@OfficeNeighborScheduleResolutionID;">
                           <ui:ExecuteQuery.Parameters>
                             <InArgument x:TypeArguments="x:Int32" x:Key="OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
                           </ui:ExecuteQuery.Parameters>
                         </ui:ExecuteQuery>
-                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ReconcileOfficeNeighborScheduleResolution workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Components\ReconcileOfficeNeighborScheduleResolution.xaml">
+                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ReconcileOfficeNeighborScheduleResolution workflow" sap:VirtualizedContainerService.HintSize="567.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Components\ReconcileOfficeNeighborScheduleResolution.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:Int32" x:Key="in_OfficeNeighborScheduleResolutionID">[OfficeNeighborScheduleResolutionID]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionPhase">Submitted</InArgument>
+                            <InArgument x:TypeArguments="x:Int32" x:Key="in_OfficeNeighborScheduleResolutionID">
+                              <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="OfficeNeighborScheduleResolutionID" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionPhase">
+                              <Literal x:TypeArguments="x:String">Submitted</Literal>
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_OfficeNeighborScheduleResolutionDayHTML">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="OfficeNeighborScheduleResolutionDayHTML" />
+                            </OutArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                         </ui:InvokeWorkflowFile>
+                        <If Condition="[OfficeNeighborScheduleResolutionDayHTML.Equals(&quot;&quot;)]" sap:VirtualizedContainerService.HintSize="567.333333333333,918.666666666667" sap2010:WorkflowViewState.IdRef="If_4">
+                          <If.Else>
+                            <Sequence sap:VirtualizedContainerService.HintSize="421.333333333333,768" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborA_ID]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborAId"))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_12">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[NearestOfficeNeighborB_ID]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[CInt(row("NearestOfficeNeighborBId"))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_13">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborA_InformationDataRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborA_ID.ToString)(0)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap:VirtualizedContainerService.HintSize="379.333333333333,62" sap2010:WorkflowViewState.IdRef="Assign_14">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataRow">[NearestOfficeNeighborB_InformationDataRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataRow">[in_EmployeeInformationDT.Select("[id]=" + NearestOfficeNeighborB_ID.ToString)(0)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
+                                <ui:InvokeWorkflowFile.Arguments>
+                                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[NearestOfficeNeighborA_InformationDataRow]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">ReconcileOfficeNeighborScheduleResolution</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML">[OfficeNeighborScheduleResolutionDayHTML]</InArgument>
+                                </ui:InvokeWorkflowFile.Arguments>
+                              </ui:InvokeWorkflowFile>
+                              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
+                                <ui:InvokeWorkflowFile.Arguments>
+                                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[NearestOfficeNeighborB_InformationDataRow]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">ReconcileOfficeNeighborScheduleResolution</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML">[OfficeNeighborScheduleResolutionDayHTML]</InArgument>
+                                </ui:InvokeWorkflowFile.Arguments>
+                              </ui:InvokeWorkflowFile>
+                            </Sequence>
+                          </If.Else>
+                        </If>
                       </Sequence>
                     </If.Then>
                   </If>
@@ -262,7 +371,7 @@
         </Sequence>
       </ui:DatabaseTransaction.Body>
     </ui:DatabaseTransaction>
-    <Switch x:TypeArguments="x:Int32" DisplayName="Switch" Expression="[DateTime.Today.DayOfWeek]" sap:VirtualizedContainerService.HintSize="736,596.666666666667" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+    <Switch x:TypeArguments="x:Int32" DisplayName="Switch" Expression="[DateTime.Today.DayOfWeek]" sap:VirtualizedContainerService.HintSize="924,596.666666666667" sap2010:WorkflowViewState.IdRef="Switch`1_1">
       <ui:ForEachRow CurrentIndex="{x:Null}" x:Key="1" DataTable="[in_EmployeeInformationDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="472,358.666666666667" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
         <ui:ForEachRow.Body>
           <ActivityAction x:TypeArguments="sd:DataRow">
@@ -277,10 +386,19 @@
               </sap:WorkflowViewStateService.ViewState>
               <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SendNearestOfficeNeighborToScheduleResolverEmailBot workflow" sap:VirtualizedContainerService.HintSize="379.333333333333,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="Components\SendNearestOfficeNeighborToScheduleResolverEmailBot.xaml">
                 <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">[row]</InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">[in_OfficeNeighborScheduleResolverEmailBotQueueName]</InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">[in_RootURL]</InArgument>
-                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">InitiateOfficeNeighborScheduleResolution</InArgument>
+                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_EmployeeInformationDataRow">
+                    <mva:VisualBasicValue x:TypeArguments="sd:DataRow" ExpressionText="row" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolverEmailBotQueueName">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_OfficeNeighborScheduleResolverEmailBotQueueName" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_RootURL">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_RootURL" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
+                    <Literal x:TypeArguments="x:String">InitiateOfficeNeighborScheduleResolution</Literal>
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML" />
                 </ui:InvokeWorkflowFile.Arguments>
               </ui:InvokeWorkflowFile>
             </Sequence>
@@ -313,6 +431,7 @@
                   <InArgument x:TypeArguments="x:String" x:Key="in_EmailPurpose">
                     <Literal x:TypeArguments="x:String">OfficeNeighborScheduleResolutionReminder</Literal>
                   </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_OfficeNeighborScheduleResolutionDayHTML" />
                 </ui:InvokeWorkflowFile.Arguments>
               </ui:InvokeWorkflowFile>
             </Sequence>
