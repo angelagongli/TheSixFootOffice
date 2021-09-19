@@ -11,6 +11,7 @@ const officeNeighborScheduleResolutionRoutes = require("./officeNeighborSchedule
 const officeNeighborScheduleRequestRoutes = require("./officeNeighborScheduleRequests");
 const officeNeighborScheduleRequestDayRoutes = require("./officeNeighborScheduleRequestDays");
 const officeNeighborScheduleResultRoutes = require("./officeNeighborScheduleResults");
+const visitorRoutes = require("./visitors");
 
 router.use("/employees", employeeRoutes);
 router.use("/teams", teamRoutes);
@@ -24,5 +25,6 @@ router.use("/officeNeighborScheduleResolutions", officeNeighborScheduleResolutio
 router.use("/officeNeighborScheduleRequests", officeNeighborScheduleRequestRoutes);
 router.use("/officeNeighborScheduleRequestDays", officeNeighborScheduleRequestDayRoutes);
 router.use("/officeNeighborScheduleResults", officeNeighborScheduleResultRoutes);
+router.use("/visitors", visitorRoutes);
 
 module.exports = router;
