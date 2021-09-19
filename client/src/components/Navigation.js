@@ -43,6 +43,12 @@ const navLinkGroups = [
         url: '/reopening',
         key: 'Reopening',
         target: '_self',
+      },
+      {
+        name: 'Visiting',
+        url: '/visiting',
+        key: 'Visiting',
+        target: '_self',
       }
     ],
   },
