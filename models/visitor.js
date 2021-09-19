@@ -49,7 +49,7 @@ module.exports = function(sequelize, DataTypes) {
 
     Visitor.associate = function(models) {
         Visitor.belongsTo(models.Employee, {
-            as: "employeeVisiting",
+            as: "EmployeeVisiting",
             foreignKey: {
                 allowNull: false
             }
