@@ -129,5 +129,17 @@ export default {
     },
     makeOfficeNeighborScheduleRequestDay: function(officeNeighborScheduleRequestDay) {
         return axios.post("/api/officeNeighborScheduleRequestDays", officeNeighborScheduleRequestDay);
+    },
+    getVisitorsAll: function() {
+        return axios.get("/api/visitors");
+    },
+    getVisitorsAllByEmployeeVisiting: function(id) {
+        return axios.get("/api/visitors/" + id);
+    },
+    updateVisitor: function(id, update) {
+        return axios.put("/api/visitors/" + id, update);
+    },
+    addVisitor: function(visitor) {
+        return axios.post("/api/visitors", visitor);
     }
 };
