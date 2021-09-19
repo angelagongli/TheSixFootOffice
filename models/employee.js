@@ -57,6 +57,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         });
         Employee.hasMany(models.EmployeeSchedule);
+        Employee.hasMany(models.Visitor);
     };
 
     return Employee;
